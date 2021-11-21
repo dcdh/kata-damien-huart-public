@@ -15,6 +15,12 @@ public class SensorTest {
         EqualsVerifier.forClass(Sensor.class).verify();
     }
 
+    @Test
+    public void should_fail_fast_when_sensed_temperature_is_null() {
+        assertThatThrownBy(() -> new Sensor(null, new ColdThreshold(new DegreeCelsius(22)), new WarnThreshold(new DegreeCelsius(22))))
+                .isInstanceOf(NullPointerException.class);
+    }
+
     @ParameterizedTest
     @CsvSource({
             "21,COLD",
