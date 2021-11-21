@@ -4,4 +4,6 @@ public interface LimitsRepository {
 
     Limits getLimits();
 
+    void store(Limits limits);
+
 }
