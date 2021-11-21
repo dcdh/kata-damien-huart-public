@@ -4,10 +4,18 @@ import java.util.Objects;
 
 public final class DegreeCelsius {
 
-    private final Long temperature;
+    private final Integer temperature;
 
-    public DegreeCelsius(final Long temperature) {
+    public DegreeCelsius(final Integer temperature) {
         this.temperature = Objects.requireNonNull(temperature);
+    }
+
+    public boolean isGreaterThanOrEquals(final DegreeCelsius degreeCelsius) {
+        return temperature >= degreeCelsius.temperature;
+    }
+
+    public boolean isBeforeThan(final DegreeCelsius degreeCelsius) {
+        return temperature < degreeCelsius.temperature;
     }
 
     @Override
