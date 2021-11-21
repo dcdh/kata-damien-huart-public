@@ -9,7 +9,9 @@ public final class Sensor {
 
     public Sensor(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
         this.sensedTemperature = Objects.requireNonNull(sensedTemperature);
-        this.sensorState = SensorState.fromSensedTemperature(sensedTemperature, coldThreshold, warnThreshold);
+        this.sensorState = SensorState.fromSensedTemperature(sensedTemperature,
+                Objects.requireNonNull(coldThreshold),
+                Objects.requireNonNull(warnThreshold));
     }
 
     public DegreeCelsius sensedTemperature() {

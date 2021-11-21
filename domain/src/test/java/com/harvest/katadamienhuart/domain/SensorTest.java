@@ -21,6 +21,18 @@ public class SensorTest {
                 .isInstanceOf(NullPointerException.class);
     }
 
+    @Test
+    public void should_fail_fast_when_cold_threshold_is_null() {
+        assertThatThrownBy(() -> new Sensor(new DegreeCelsius(10), null, new WarnThreshold(new DegreeCelsius(22))))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void should_fail_fast_when_warn_threshold_is_null() {
+        assertThatThrownBy(() -> new Sensor(new DegreeCelsius(10), new ColdThreshold(new DegreeCelsius(22)), null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
     @ParameterizedTest
     @CsvSource({
             "21,COLD",
