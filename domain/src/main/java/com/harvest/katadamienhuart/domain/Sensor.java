@@ -6,12 +6,18 @@ public final class Sensor {
 
     private final SensorState sensorState;
     private final DegreeCelsius sensedTemperature;
+    private final SensedAt sensedAt;
 
-    public Sensor(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
+    public Sensor(final SensedAt sensedAt, final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
+        this.sensedAt = Objects.requireNonNull(sensedAt);
         this.sensedTemperature = Objects.requireNonNull(sensedTemperature);
         this.sensorState = SensorState.fromSensedTemperature(sensedTemperature,
                 Objects.requireNonNull(coldThreshold),
                 Objects.requireNonNull(warnThreshold));
+    }
+
+    public SensedAt sensedAt() {
+        return sensedAt;
     }
 
     public DegreeCelsius sensedTemperature() {
@@ -28,11 +34,12 @@ public final class Sensor {
         if (!(o instanceof Sensor)) return false;
         final Sensor sensor = (Sensor) o;
         return sensorState == sensor.sensorState &&
-                Objects.equals(sensedTemperature, sensor.sensedTemperature);
+                Objects.equals(sensedTemperature, sensor.sensedTemperature) &&
+                Objects.equals(sensedAt, sensor.sensedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sensorState, sensedTemperature);
+        return Objects.hash(sensorState, sensedTemperature, sensedAt);
     }
 }

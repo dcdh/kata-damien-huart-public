@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.ZonedDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -16,20 +18,26 @@ public class SensorTest {
     }
 
     @Test
+    public void should_fail_fast_when_sensed_at_is_null() {
+        assertThatThrownBy(() -> new Sensor(null, new DegreeCelsius(10), new ColdThreshold(new DegreeCelsius(22)), new WarnThreshold(new DegreeCelsius(22))))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
     public void should_fail_fast_when_sensed_temperature_is_null() {
-        assertThatThrownBy(() -> new Sensor(null, new ColdThreshold(new DegreeCelsius(22)), new WarnThreshold(new DegreeCelsius(22))))
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), null, new ColdThreshold(new DegreeCelsius(22)), new WarnThreshold(new DegreeCelsius(22))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_fast_when_cold_threshold_is_null() {
-        assertThatThrownBy(() -> new Sensor(new DegreeCelsius(10), null, new WarnThreshold(new DegreeCelsius(22))))
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), null, new WarnThreshold(new DegreeCelsius(22))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_fast_when_warn_threshold_is_null() {
-        assertThatThrownBy(() -> new Sensor(new DegreeCelsius(10), new ColdThreshold(new DegreeCelsius(22)), null))
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), new ColdThreshold(new DegreeCelsius(22)), null))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -56,14 +64,16 @@ public class SensorTest {
             "39,WARM",
             "40,HOT"})
     public void should_return_expected_state(final Integer givenSensedTemperature, final SensorState expectedSensorState) {
-        assertThat(new Sensor(new DegreeCelsius(givenSensedTemperature),
+        assertThat(new Sensor(new SensedAt(ZonedDateTime.now()),
+                new DegreeCelsius(givenSensedTemperature),
                 new ColdThreshold(new DegreeCelsius(22)),
                 new WarnThreshold(new DegreeCelsius(40))).sensorState()).isEqualTo(expectedSensorState);
     }
 
     @Test
     public void should_fail_fast_when_warn_threshold_is_before_cold_threshold() {
-        assertThatThrownBy(() -> new Sensor(new DegreeCelsius(0),
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()),
+                new DegreeCelsius(0),
                 new ColdThreshold(new DegreeCelsius(22)),
                 new WarnThreshold(new DegreeCelsius(20))).sensorState())
                 .isInstanceOf(IllegalStateException.class)
