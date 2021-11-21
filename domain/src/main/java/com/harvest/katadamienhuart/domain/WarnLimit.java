@@ -2,11 +2,11 @@ package com.harvest.katadamienhuart.domain;
 
 import java.util.Objects;
 
-public final class ColdThreshold {
+public final class WarnLimit {
 
     private final DegreeCelsius threshold;
 
-    public ColdThreshold(final DegreeCelsius threshold) {
+    public WarnLimit(final DegreeCelsius threshold) {
         this.threshold = Objects.requireNonNull(threshold);
     }
 
@@ -17,8 +17,8 @@ public final class ColdThreshold {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof ColdThreshold)) return false;
-        final ColdThreshold that = (ColdThreshold) o;
+        if (!(o instanceof WarnLimit)) return false;
+        final WarnLimit that = (WarnLimit) o;
         return Objects.equals(threshold, that.threshold);
     }
 

@@ -7,8 +7,8 @@ public enum SensorState {
     COLD {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
-            return sensedTemperature.isBeforeThan(coldThreshold.threshold());
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
+            return sensedTemperature.isBeforeThan(coldLimit.threshold());
         }
 
     },
@@ -16,9 +16,9 @@ public enum SensorState {
     WARM {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
-            return sensedTemperature.isGreaterThanOrEquals(coldThreshold.threshold()) &&
-                    sensedTemperature.isBeforeThan(warnThreshold.threshold());
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
+            return sensedTemperature.isGreaterThanOrEquals(coldLimit.threshold()) &&
+                    sensedTemperature.isBeforeThan(warnLimit.threshold());
         }
 
     },
@@ -26,17 +26,17 @@ public enum SensorState {
     HOT {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
-            return sensedTemperature.isGreaterThanOrEquals(warnThreshold.threshold());
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
+            return sensedTemperature.isGreaterThanOrEquals(warnLimit.threshold());
         }
 
     };
 
-    public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdThreshold coldThreshold, WarnThreshold warnThreshold);
+    public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdLimit coldLimit, WarnLimit warnLimit);
 
-    public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature, final Thresholds thresholds) {
+    public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature, final Limits limits) {
         return Stream.of(SensorState.values())
-                .filter(sensorState -> sensorState.matchState(sensedTemperature, thresholds.coldThreshold(), thresholds.warnThreshold()))
+                .filter(sensorState -> sensorState.matchState(sensedTemperature, limits.coldLimit(), limits.warnLimit()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Should not be here"));
     }

@@ -19,17 +19,17 @@ public class GetTemperatureUseCaseTest {
         final TemperatureCaptor temperatureCaptor = mock(TemperatureCaptor.class);
         final SensedAtProvider sensedAtProvider = mock(SensedAtProvider.class);
         final SensorRepository sensorRepository = mock(SensorRepository.class);
-        final ThresholdRepository thresholdRepository = mock(ThresholdRepository.class);
+        final LimitsRepository limitsRepository = mock(LimitsRepository.class);
         doReturn(new DegreeCelsius(30)).when(temperatureCaptor).getTemperature();
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(new SensedAt(sensedAt)).when(sensedAtProvider).now();
-        doReturn(new Thresholds(
-                new ColdThreshold(new DegreeCelsius(22)),
-                new WarnThreshold(new DegreeCelsius(40))
-        )).when(thresholdRepository).getThresholds();
+        doReturn(new Limits(
+                new ColdLimit(new DegreeCelsius(22)),
+                new WarnLimit(new DegreeCelsius(40))
+        )).when(limitsRepository).getLimits();
 
         final GetTemperatureUseCase getTemperatureUseCase = new GetTemperatureUseCase(
-                temperatureCaptor, sensedAtProvider, sensorRepository, thresholdRepository);
+                temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
 
         // When
         final Sensor sensor = getTemperatureUseCase.execute(new GetTemperatureCommand());
@@ -38,9 +38,9 @@ public class GetTemperatureUseCaseTest {
         final Sensor expectedSensor = new Sensor(
                 new SensedAt(sensedAt),
                 new DegreeCelsius(30),
-                new Thresholds(
-                        new ColdThreshold(new DegreeCelsius(22)),
-                        new WarnThreshold(new DegreeCelsius(40)))
+                new Limits(
+                        new ColdLimit(new DegreeCelsius(22)),
+                        new WarnLimit(new DegreeCelsius(40)))
         );
         assertThat(sensor).isEqualTo(expectedSensor);
         verify(sensorRepository, times(1)).save(sensor);

@@ -8,11 +8,11 @@ public final class Sensor {
     private final DegreeCelsius sensedTemperature;
     private final SensedAt sensedAt;
 
-    public Sensor(final SensedAt sensedAt, final DegreeCelsius sensedTemperature, final Thresholds thresholds) {
+    public Sensor(final SensedAt sensedAt, final DegreeCelsius sensedTemperature, final Limits limits) {
         this.sensedAt = Objects.requireNonNull(sensedAt);
         this.sensedTemperature = Objects.requireNonNull(sensedTemperature);
         this.sensorState = SensorState.fromSensedTemperature(sensedTemperature,
-                Objects.requireNonNull(thresholds));
+                Objects.requireNonNull(limits));
     }
 
     public SensedAt sensedAt() {
