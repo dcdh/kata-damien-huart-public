@@ -34,14 +34,9 @@ public enum SensorState {
 
     public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdThreshold coldThreshold, WarnThreshold warnThreshold);
 
-    public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature,
-                                                          final ColdThreshold coldThreshold,
-                                                          final WarnThreshold warnThreshold) {
-        if (warnThreshold.threshold().isBeforeThan(coldThreshold.threshold())) {
-            throw new IllegalStateException("Warn threshold could not be before cold threshold");
-        }
+    public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature, final Thresholds thresholds) {
         return Stream.of(SensorState.values())
-                .filter(sensorState -> sensorState.matchState(sensedTemperature, coldThreshold, warnThreshold))
+                .filter(sensorState -> sensorState.matchState(sensedTemperature, thresholds.coldThreshold(), thresholds.warnThreshold()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Should not be here"));
     }
