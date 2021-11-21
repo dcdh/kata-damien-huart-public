@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class SensorTest {
 
@@ -37,7 +38,18 @@ public class SensorTest {
             "39,WARM",
             "40,HOT"})
     public void should_return_expected_state(final Integer givenSensedTemperature, final SensorState expectedSensorState) {
-        assertThat(new Sensor(new DegreeCelsius(givenSensedTemperature)).sensorState()).isEqualTo(expectedSensorState);
+        assertThat(new Sensor(new DegreeCelsius(givenSensedTemperature),
+                new ColdThreshold(new DegreeCelsius(22)),
+                new WarnThreshold(new DegreeCelsius(40))).sensorState()).isEqualTo(expectedSensorState);
+    }
+
+    @Test
+    public void should_fail_fast_when_warn_threshold_is_before_cold_threshold() {
+        assertThatThrownBy(() -> new Sensor(new DegreeCelsius(0),
+                new ColdThreshold(new DegreeCelsius(22)),
+                new WarnThreshold(new DegreeCelsius(20))).sensorState())
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("Warn threshold could not be before cold threshold");
     }
 
 }

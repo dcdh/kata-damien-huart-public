@@ -7,8 +7,8 @@ public enum SensorState {
     COLD {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature) {
-            return sensedTemperature.isBeforeThan(new DegreeCelsius(22));
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
+            return sensedTemperature.isBeforeThan(coldThreshold.threshold());
         }
 
     },
@@ -16,9 +16,9 @@ public enum SensorState {
     WARM {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature) {
-            return sensedTemperature.isGreaterThanOrEquals(new DegreeCelsius(22)) &&
-                    sensedTemperature.isBeforeThan(new DegreeCelsius(40));
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
+            return sensedTemperature.isGreaterThanOrEquals(coldThreshold.threshold()) &&
+                    sensedTemperature.isBeforeThan(warnThreshold.threshold());
         }
 
     },
@@ -26,17 +26,22 @@ public enum SensorState {
     HOT {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature) {
-            return sensedTemperature.isGreaterThanOrEquals(new DegreeCelsius(40));
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
+            return sensedTemperature.isGreaterThanOrEquals(warnThreshold.threshold());
         }
 
     };
 
-    public abstract boolean matchState(DegreeCelsius sensedTemperature);
+    public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdThreshold coldThreshold, WarnThreshold warnThreshold);
 
-    public static final SensorState fromSensedTemperature(DegreeCelsius sensedTemperature) {
+    public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature,
+                                                          final ColdThreshold coldThreshold,
+                                                          final WarnThreshold warnThreshold) {
+        if (warnThreshold.threshold().isBeforeThan(coldThreshold.threshold())) {
+            throw new IllegalStateException("Warn threshold could not be before cold threshold");
+        }
         return Stream.of(SensorState.values())
-                .filter(sensorState -> sensorState.matchState(sensedTemperature))
+                .filter(sensorState -> sensorState.matchState(sensedTemperature, coldThreshold, warnThreshold))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Should not be here"));
     }

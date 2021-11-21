@@ -6,8 +6,8 @@ public final class Sensor {
 
     private final SensorState sensorState;
 
-    public Sensor(final DegreeCelsius sensedTemperature) {
-        this.sensorState = SensorState.fromSensedTemperature(sensedTemperature);
+    public Sensor(final DegreeCelsius sensedTemperature, final ColdThreshold coldThreshold, final WarnThreshold warnThreshold) {
+        this.sensorState = SensorState.fromSensedTemperature(sensedTemperature, coldThreshold, warnThreshold);
     }
 
     public SensorState sensorState() {
