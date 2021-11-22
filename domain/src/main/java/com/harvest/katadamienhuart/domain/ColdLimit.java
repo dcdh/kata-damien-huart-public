@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public final class ColdLimit {
 
-    private final DegreeCelsius threshold;
+    private final DegreeCelsius limit;
 
-    public ColdLimit(final DegreeCelsius threshold) {
-        this.threshold = Objects.requireNonNull(threshold);
+    public ColdLimit(final DegreeCelsius limit) {
+        this.limit = Objects.requireNonNull(limit);
     }
 
-    public DegreeCelsius threshold() {
-        return threshold;
+    public DegreeCelsius limit() {
+        return limit;
     }
 
     @Override
@@ -19,11 +19,11 @@ public final class ColdLimit {
         if (this == o) return true;
         if (!(o instanceof ColdLimit)) return false;
         final ColdLimit that = (ColdLimit) o;
-        return Objects.equals(threshold, that.threshold);
+        return Objects.equals(limit, that.limit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(threshold);
+        return Objects.hash(limit);
     }
 }

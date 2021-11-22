@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public final class WarnLimit {
 
-    private final DegreeCelsius threshold;
+    private final DegreeCelsius limit;
 
-    public WarnLimit(final DegreeCelsius threshold) {
-        this.threshold = Objects.requireNonNull(threshold);
+    public WarnLimit(final DegreeCelsius limit) {
+        this.limit = Objects.requireNonNull(limit);
     }
 
-    public DegreeCelsius threshold() {
-        return threshold;
+    public DegreeCelsius limit() {
+        return limit;
     }
 
     @Override
@@ -19,11 +19,11 @@ public final class WarnLimit {
         if (this == o) return true;
         if (!(o instanceof WarnLimit)) return false;
         final WarnLimit that = (WarnLimit) o;
-        return Objects.equals(threshold, that.threshold);
+        return Objects.equals(limit, that.limit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(threshold);
+        return Objects.hash(limit);
     }
 }

@@ -8,7 +8,7 @@ public enum SensorState {
 
         @Override
         public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
-            return sensedTemperature.isBeforeThan(coldLimit.threshold());
+            return sensedTemperature.isBeforeThan(coldLimit.limit());
         }
 
     },
@@ -17,8 +17,8 @@ public enum SensorState {
 
         @Override
         public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
-            return sensedTemperature.isGreaterThanOrEquals(coldLimit.threshold()) &&
-                    sensedTemperature.isBeforeThan(warnLimit.threshold());
+            return sensedTemperature.isGreaterThanOrEquals(coldLimit.limit()) &&
+                    sensedTemperature.isBeforeThan(warnLimit.limit());
         }
 
     },
@@ -27,7 +27,7 @@ public enum SensorState {
 
         @Override
         public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
-            return sensedTemperature.isGreaterThanOrEquals(warnLimit.threshold());
+            return sensedTemperature.isGreaterThanOrEquals(warnLimit.limit());
         }
 
     };

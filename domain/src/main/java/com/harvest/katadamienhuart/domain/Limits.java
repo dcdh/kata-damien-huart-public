@@ -11,7 +11,7 @@ public final class Limits {
                   final WarnLimit warnLimit) {
         this.coldLimit = Objects.requireNonNull(coldLimit);
         this.warnLimit = Objects.requireNonNull(warnLimit);
-        if (warnLimit.threshold().isBeforeThan(coldLimit.threshold())) {
+        if (warnLimit.limit().isBeforeThan(coldLimit.limit())) {
             throw new IllegalStateException("Warn limit could not be before cold limit");
         }
     }
