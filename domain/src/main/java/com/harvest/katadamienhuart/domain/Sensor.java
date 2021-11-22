@@ -9,10 +9,14 @@ public final class Sensor {
     private final SensedAt sensedAt;
 
     public Sensor(final SensedAt sensedAt, final DegreeCelsius sensedTemperature, final Limits limits) {
+        this(sensedAt, sensedTemperature,
+                SensorState.fromSensedTemperature(sensedTemperature, Objects.requireNonNull(limits)));
+    }
+
+    public Sensor(final SensedAt sensedAt, final DegreeCelsius sensedTemperature, final SensorState sensorState) {
         this.sensedAt = Objects.requireNonNull(sensedAt);
         this.sensedTemperature = Objects.requireNonNull(sensedTemperature);
-        this.sensorState = SensorState.fromSensedTemperature(sensedTemperature,
-                Objects.requireNonNull(limits));
+        this.sensorState = Objects.requireNonNull(sensorState);
     }
 
     public SensedAt sensedAt() {
@@ -40,5 +44,14 @@ public final class Sensor {
     @Override
     public int hashCode() {
         return Objects.hash(sensorState, sensedTemperature, sensedAt);
+    }
+
+    @Override
+    public String toString() {
+        return "Sensor{" +
+                "sensorState=" + sensorState +
+                ", sensedTemperature=" + sensedTemperature +
+                ", sensedAt=" + sensedAt +
+                '}';
     }
 }

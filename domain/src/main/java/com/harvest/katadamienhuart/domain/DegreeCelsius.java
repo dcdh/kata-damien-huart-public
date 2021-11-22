@@ -18,6 +18,10 @@ public final class DegreeCelsius {
         return temperature < degreeCelsius.temperature;
     }
 
+    public Integer temperature() {
+        return temperature;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

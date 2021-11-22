@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  sensor-db:
+    image: debezium/postgres:11-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=sensor
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+
+  sensor-native-service:
+    image: com.harvest.katadamienhuart/sensor-native-service
+    ports:
+      - 8080:8080
+    environment:
+      - quarkus.http.host=0.0.0.0
+      - quarkus.datasource.jdbc.url=jdbc:postgresql://sensor-db:5432/sensor
+      - quarkus.datasource.username=username
+      - quarkus.datasource.password=password
+    depends_on:
+      - sensor-db
+    restart: unless-stopped

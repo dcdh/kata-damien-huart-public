@@ -27,4 +27,11 @@ public final class SensedAt {
     public int hashCode() {
         return Objects.hash(at);
     }
+
+    @Override
+    public String toString() {
+        return "SensedAt{" +
+                "at=" + at +
+                '}';
+    }
 }

@@ -31,9 +31,16 @@ public class SensorTest {
 
     @Test
     public void should_fail_fast_when_limits_is_null() {
-        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), null))
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), (Limits) null))
                 .isInstanceOf(NullPointerException.class);
     }
+
+    @Test
+    public void should_fail_fast_when_sensor_state_is_null() {
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), (SensorState) null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
 
     @ParameterizedTest
     @CsvSource({

@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "array",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": [],
+  "examples": [
+    [
+      {
+        "sensorState": "WARM",
+        "sensedTemperature": 22,
+        "sensedAt": "2021-11-22T23:39:57.144382Z"
+      }
+    ]
+  ],
+  "additionalItems": true,
+  "items": {
+    "$id": "#/items",
+    "anyOf": [
+      {
+        "$id": "#/items/anyOf/0",
+        "type": "object",
+        "title": "The first anyOf schema",
+        "description": "An explanation about the purpose of this instance.",
+        "default": {},
+        "examples": [
+          {
+            "sensorState": "WARM",
+            "sensedTemperature": 22,
+            "sensedAt": "2021-11-22T23:39:57.144382Z"
+          }
+        ],
+        "required": [
+          "sensorState",
+          "sensedTemperature",
+          "sensedAt"
+        ],
+        "properties": {
+          "sensorState": {
+            "$id": "#/items/anyOf/0/properties/sensorState",
+            "type": "string",
+            "title": "The sensorState schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "WARM"
+            ]
+          },
+          "sensedTemperature": {
+            "$id": "#/items/anyOf/0/properties/sensedTemperature",
+            "type": "integer",
+            "title": "The sensedTemperature schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+              22
+            ]
+          },
+          "sensedAt": {
+            "$id": "#/items/anyOf/0/properties/sensedAt",
+            "type": "string",
+            "title": "The sensedAt schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "2021-11-22T23:39:57.144382Z"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  }
+}
