@@ -73,14 +73,15 @@ public class SensorTest {
     }
 
     @Test
-    public void should_fail_fast_when_warm_limit_is_before_cold_limit() {
+    public void should_fail_when_warm_limit_is_before_cold_limit() {
         assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()),
                 new DegreeCelsius(0),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(20)))).sensorState())
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Warm limit could not be before cold limit");
+                .isInstanceOf(WarmLimitMustBeSuperiorToColdLimitException.class)
+                .hasFieldOrPropertyWithValue("coldLimit", new ColdLimit(new DegreeCelsius(22)))
+                .hasFieldOrPropertyWithValue("warmLimit", new WarmLimit(new DegreeCelsius(20)));
     }
 
 }

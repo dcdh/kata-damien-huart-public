@@ -6,7 +6,7 @@ import com.harvest.katadamienhuart.domain.WarmLimit;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsCommand;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectMock;
+import io.quarkus.test.junit.mockito.InjectSpy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class LimitsEndpointTest {
 
-    @InjectMock
+    @InjectSpy
     RedefineLimitsUseCase redefineLimitsUseCase;
 
     @Test
@@ -61,6 +61,19 @@ public class LimitsEndpointTest {
                 .log().all()
                 .statusCode(400)
                 .body(equalTo("-42°C is invalid. WarmLimit must be a positive temperature."));
+    }
+
+    @Test
+    public void should_return_expected_bad_request_response_when_warm_limit_is_before_cold_limit() {
+        given()
+                .param("newColdLimit", "22")
+                .param("newWarmLimit", "20")
+                .when()
+                .post("/limits/redefineLimits")
+                .then()
+                .log().all()
+                .statusCode(400)
+                .body(equalTo("Warm limit (20°C) must be superior to cold limit (22°C)."));
     }
 
 }

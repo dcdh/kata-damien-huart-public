@@ -12,7 +12,7 @@ public final class Limits {
         this.coldLimit = Objects.requireNonNull(coldLimit);
         this.warmLimit = Objects.requireNonNull(warmLimit);
         if (warmLimit.limit().isBeforeThan(coldLimit.limit())) {
-            throw new IllegalStateException("Warm limit could not be before cold limit");
+            throw new WarmLimitMustBeSuperiorToColdLimitException(coldLimit, warmLimit);
         }
     }
 
