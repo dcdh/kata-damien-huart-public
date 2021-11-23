@@ -2,27 +2,27 @@ package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.UseCaseCommand;
-import com.harvest.katadamienhuart.domain.WarnLimit;
+import com.harvest.katadamienhuart.domain.WarmLimit;
 
 import java.util.Objects;
 
 public final class RedefineLimitsCommand implements UseCaseCommand {
 
     private final ColdLimit newColdLimit;
-    private final WarnLimit newWarnLimit;
+    private final WarmLimit newWarmLimit;
 
     public RedefineLimitsCommand(final ColdLimit newColdLimit,
-                                 final WarnLimit newWarnLimit) {
+                                 final WarmLimit newWarmLimit) {
         this.newColdLimit = Objects.requireNonNull(newColdLimit);
-        this.newWarnLimit = Objects.requireNonNull(newWarnLimit);
+        this.newWarmLimit = Objects.requireNonNull(newWarmLimit);
     }
 
     public ColdLimit newColdLimit() {
         return newColdLimit;
     }
 
-    public WarnLimit newWarnLimit() {
-        return newWarnLimit;
+    public WarmLimit newWarmLimit() {
+        return newWarmLimit;
     }
 
     @Override
@@ -31,11 +31,11 @@ public final class RedefineLimitsCommand implements UseCaseCommand {
         if (!(o instanceof RedefineLimitsCommand)) return false;
         final RedefineLimitsCommand that = (RedefineLimitsCommand) o;
         return Objects.equals(newColdLimit, that.newColdLimit) &&
-                Objects.equals(newWarnLimit, that.newWarnLimit);
+                Objects.equals(newWarmLimit, that.newWarmLimit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(newColdLimit, newWarnLimit);
+        return Objects.hash(newColdLimit, newWarmLimit);
     }
 }

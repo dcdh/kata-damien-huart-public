@@ -3,7 +3,7 @@ package com.harvest.katadamienhuart.infrastructure.postgres;
 import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
-import com.harvest.katadamienhuart.domain.WarnLimit;
+import com.harvest.katadamienhuart.domain.WarmLimit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,19 +21,19 @@ public class LimitsEntity {
     private Integer coldLimit;
 
     @NotNull
-    private Integer warnLimit;
+    private Integer warmLimit;
 
     public LimitsEntity() {}
 
     public LimitsEntity(final Limits limits) {
         this.coldLimit = limits.coldLimit().limit().temperature();
-        this.warnLimit = limits.warnLimit().limit().temperature();
+        this.warmLimit = limits.warmLimit().limit().temperature();
     }
 
     public Limits toDomain() {
         return new Limits(new ColdLimit(
                 new DegreeCelsius(coldLimit)),
-                new WarnLimit(new DegreeCelsius(warnLimit)));
+                new WarmLimit(new DegreeCelsius(warmLimit)));
     }
 
     @Override

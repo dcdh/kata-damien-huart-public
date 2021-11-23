@@ -34,7 +34,7 @@ public class E2ETest {
     public void should_redefine_limits() {
         given()
                 .param("newColdLimit", "20")
-                .param("newWarnLimit", "42")
+                .param("newWarmLimit", "42")
                 .when()
                 .post("/limits/redefineLimits")
                 .then()

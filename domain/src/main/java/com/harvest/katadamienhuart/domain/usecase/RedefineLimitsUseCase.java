@@ -16,7 +16,7 @@ public class RedefineLimitsUseCase implements UseCase<RedefineLimitsCommand, Lim
 
     @Override
     public Limits execute(final RedefineLimitsCommand command) {
-        final Limits newLimitsDefinition = new Limits(command.newColdLimit(), command.newWarnLimit());
+        final Limits newLimitsDefinition = new Limits(command.newColdLimit(), command.newWarmLimit());
         limitsRepository.store(newLimitsDefinition);
         return newLimitsDefinition;
     }

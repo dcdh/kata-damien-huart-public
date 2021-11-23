@@ -27,7 +27,7 @@ public class GetTemperatureUseCase implements UseCase<GetTemperatureCommand, Sen
         final DegreeCelsius sensedTemperature = temperatureCaptor.getTemperature();
         final Limits limits = Optional.ofNullable(limitsRepository.getLimits())
                 .orElseGet(() -> new Limits(new ColdLimit(new DegreeCelsius(22)),
-                        new WarnLimit(new DegreeCelsius(40))));
+                        new WarmLimit(new DegreeCelsius(40))));
         final SensedAt sensedAt = sensedAtProvider.now();
         final Sensor sensor = new Sensor(sensedAt, sensedTemperature, limits);
         sensorRepository.save(sensor);

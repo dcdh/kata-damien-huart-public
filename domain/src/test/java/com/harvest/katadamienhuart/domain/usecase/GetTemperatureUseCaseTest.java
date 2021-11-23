@@ -37,7 +37,7 @@ public class GetTemperatureUseCaseTest {
         doReturn(new SensedAt(sensedAt)).when(sensedAtProvider).now();
         doReturn(new Limits(
                 new ColdLimit(new DegreeCelsius(22)),
-                new WarnLimit(new DegreeCelsius(40))
+                new WarmLimit(new DegreeCelsius(40))
         )).when(limitsRepository).getLimits();
 
         // When
@@ -49,7 +49,7 @@ public class GetTemperatureUseCaseTest {
                 new DegreeCelsius(30),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
-                        new WarnLimit(new DegreeCelsius(40)))
+                        new WarmLimit(new DegreeCelsius(40)))
         );
         assertThat(sensor).isEqualTo(expectedSensor);
         verify(sensorRepository, times(1)).save(sensor);
@@ -71,7 +71,7 @@ public class GetTemperatureUseCaseTest {
                 new DegreeCelsius(30),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
-                        new WarnLimit(new DegreeCelsius(40)))
+                        new WarmLimit(new DegreeCelsius(40)))
         );
         assertThat(sensor).isEqualTo(expectedSensor);
     }

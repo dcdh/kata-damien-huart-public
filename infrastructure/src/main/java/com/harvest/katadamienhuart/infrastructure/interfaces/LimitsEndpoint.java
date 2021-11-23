@@ -2,7 +2,7 @@ package com.harvest.katadamienhuart.infrastructure.interfaces;
 
 import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
-import com.harvest.katadamienhuart.domain.WarnLimit;
+import com.harvest.katadamienhuart.domain.WarmLimit;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsCommand;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
 
@@ -26,10 +26,10 @@ public class LimitsEndpoint {
     @Path("/redefineLimits")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void redefineLimits(@FormParam("newColdLimit") final Integer newColdLimit,
-                               @FormParam("newWarnLimit") final Integer newWarnLimit) {
+                               @FormParam("newWarmLimit") final Integer newWarmLimit) {
         this.redefineLimitsUseCase.execute(new RedefineLimitsCommand(
                 new ColdLimit(new DegreeCelsius(newColdLimit)),
-                new WarnLimit(new DegreeCelsius(newWarnLimit))));
+                new WarmLimit(new DegreeCelsius(newWarmLimit))));
     }
 
 }

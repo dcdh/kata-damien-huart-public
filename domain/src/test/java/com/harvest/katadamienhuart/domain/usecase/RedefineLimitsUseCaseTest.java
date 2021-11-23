@@ -20,10 +20,10 @@ public class RedefineLimitsUseCaseTest {
         // When
         final Limits limits = redefineLimitsUseCase.execute(new RedefineLimitsCommand(
                 new ColdLimit(new DegreeCelsius(10)),
-                new WarnLimit(new DegreeCelsius(45))));
+                new WarmLimit(new DegreeCelsius(45))));
 
         // Then
-        final Limits expectedLimits = new Limits(new ColdLimit(new DegreeCelsius(10)), new WarnLimit(new DegreeCelsius(45)));
+        final Limits expectedLimits = new Limits(new ColdLimit(new DegreeCelsius(10)), new WarmLimit(new DegreeCelsius(45)));
         assertThat(limits).isEqualTo(expectedLimits);
         verify(limitsRepository, times(1)).store(expectedLimits);
     }

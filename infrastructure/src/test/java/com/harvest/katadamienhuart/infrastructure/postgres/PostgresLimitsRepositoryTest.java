@@ -3,7 +3,7 @@ package com.harvest.katadamienhuart.infrastructure.postgres;
 import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
-import com.harvest.katadamienhuart.domain.WarnLimit;
+import com.harvest.katadamienhuart.domain.WarmLimit;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +34,7 @@ public class PostgresLimitsRepositoryTest extends RepositoryTest {
         // When
         postgresLimitsRepository.store(new Limits(
                 new ColdLimit(new DegreeCelsius(20)),
-                new WarnLimit(new DegreeCelsius(40))));
+                new WarmLimit(new DegreeCelsius(40))));
 
         // Then
         assertThat(((Number) entityManager.createNativeQuery(COUNT_LIMITS_SQL).getSingleResult()).longValue()).isEqualTo(1l);
@@ -46,10 +46,10 @@ public class PostgresLimitsRepositoryTest extends RepositoryTest {
         runInTransaction(() -> {
             entityManager.persist(new LimitsEntity(new Limits(
                     new ColdLimit(new DegreeCelsius(20)),
-                    new WarnLimit(new DegreeCelsius(40)))));
+                    new WarmLimit(new DegreeCelsius(40)))));
             entityManager.persist(new LimitsEntity(new Limits(
                     new ColdLimit(new DegreeCelsius(22)),
-                    new WarnLimit(new DegreeCelsius(42)))));
+                    new WarmLimit(new DegreeCelsius(42)))));
             return null;
         });
 
@@ -60,7 +60,7 @@ public class PostgresLimitsRepositoryTest extends RepositoryTest {
         // Then
         assertThat(limits).isEqualTo(new Limits(
                 new ColdLimit(new DegreeCelsius(22)),
-                new WarnLimit(new DegreeCelsius(42))));
+                new WarmLimit(new DegreeCelsius(42))));
     }
 
 }

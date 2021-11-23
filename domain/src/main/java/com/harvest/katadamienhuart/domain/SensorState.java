@@ -7,7 +7,7 @@ public enum SensorState {
     COLD {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
             return sensedTemperature.isBeforeThan(coldLimit.limit());
         }
 
@@ -16,9 +16,9 @@ public enum SensorState {
     WARM {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
             return sensedTemperature.isGreaterThanOrEquals(coldLimit.limit()) &&
-                    sensedTemperature.isBeforeThan(warnLimit.limit());
+                    sensedTemperature.isBeforeThan(warmLimit.limit());
         }
 
     },
@@ -26,17 +26,17 @@ public enum SensorState {
     HOT {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarnLimit warnLimit) {
-            return sensedTemperature.isGreaterThanOrEquals(warnLimit.limit());
+        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
+            return sensedTemperature.isGreaterThanOrEquals(warmLimit.limit());
         }
 
     };
 
-    public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdLimit coldLimit, WarnLimit warnLimit);
+    public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdLimit coldLimit, WarmLimit warmLimit);
 
     public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature, final Limits limits) {
         return Stream.of(SensorState.values())
-                .filter(sensorState -> sensorState.matchState(sensedTemperature, limits.coldLimit(), limits.warnLimit()))
+                .filter(sensorState -> sensorState.matchState(sensedTemperature, limits.coldLimit(), limits.warmLimit()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Should not be here"));
     }

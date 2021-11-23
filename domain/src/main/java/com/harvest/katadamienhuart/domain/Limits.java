@@ -5,14 +5,14 @@ import java.util.Objects;
 public final class Limits {
 
     private final ColdLimit coldLimit;
-    private final WarnLimit warnLimit;
+    private final WarmLimit warmLimit;
 
     public Limits(final ColdLimit coldLimit,
-                  final WarnLimit warnLimit) {
+                  final WarmLimit warmLimit) {
         this.coldLimit = Objects.requireNonNull(coldLimit);
-        this.warnLimit = Objects.requireNonNull(warnLimit);
-        if (warnLimit.limit().isBeforeThan(coldLimit.limit())) {
-            throw new IllegalStateException("Warn limit could not be before cold limit");
+        this.warmLimit = Objects.requireNonNull(warmLimit);
+        if (warmLimit.limit().isBeforeThan(coldLimit.limit())) {
+            throw new IllegalStateException("Warm limit could not be before cold limit");
         }
     }
 
@@ -20,8 +20,8 @@ public final class Limits {
         return coldLimit;
     }
 
-    public WarnLimit warnLimit() {
-        return warnLimit;
+    public WarmLimit warmLimit() {
+        return warmLimit;
     }
 
     @Override
@@ -30,11 +30,11 @@ public final class Limits {
         if (!(o instanceof Limits)) return false;
         final Limits that = (Limits) o;
         return Objects.equals(coldLimit, that.coldLimit) &&
-                Objects.equals(warnLimit, that.warnLimit);
+                Objects.equals(warmLimit, that.warmLimit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(coldLimit, warnLimit);
+        return Objects.hash(coldLimit, warmLimit);
     }
 }

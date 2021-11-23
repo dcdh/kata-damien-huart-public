@@ -5,22 +5,22 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class WarnLimitTest {
+public class WarmLimitTest {
 
     @Test
     public void should_verify_equality() {
-        EqualsVerifier.forClass(WarnLimit.class).verify();
+        EqualsVerifier.forClass(WarmLimit.class).verify();
     }
 
     @Test
     public void should_fail_fast_when_limit_is_null() {
-        assertThatThrownBy(() -> new WarnLimit(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new WarmLimit(null)).isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_when_limit_is_not_positive() {
-        assertThatThrownBy(() -> new WarnLimit(new DegreeCelsius(-10)))
-                .isInstanceOf(WarnLimitMustBePositiveException.class)
+        assertThatThrownBy(() -> new WarmLimit(new DegreeCelsius(-10)))
+                .isInstanceOf(WarmLimitMustBePositiveException.class)
                 .hasFieldOrPropertyWithValue("limit", new DegreeCelsius(-10));
     }
 

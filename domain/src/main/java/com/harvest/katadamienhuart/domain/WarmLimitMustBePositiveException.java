@@ -2,11 +2,11 @@ package com.harvest.katadamienhuart.domain;
 
 import java.util.Objects;
 
-public class WarnLimitMustBePositiveException extends RuntimeException {
+public class WarmLimitMustBePositiveException extends RuntimeException {
 
     private final DegreeCelsius limit;
 
-    public WarnLimitMustBePositiveException(final DegreeCelsius limit) {
+    public WarmLimitMustBePositiveException(final DegreeCelsius limit) {
         this.limit = Objects.requireNonNull(limit);
     }
 

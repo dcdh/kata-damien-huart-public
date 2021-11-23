@@ -19,13 +19,13 @@ public class SensorTest {
 
     @Test
     public void should_fail_fast_when_sensed_at_is_null() {
-        assertThatThrownBy(() -> new Sensor(null, new DegreeCelsius(10), new Limits(new ColdLimit(new DegreeCelsius(22)), new WarnLimit(new DegreeCelsius(22)))))
+        assertThatThrownBy(() -> new Sensor(null, new DegreeCelsius(10), new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_fast_when_sensed_temperature_is_null() {
-        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), null, new Limits(new ColdLimit(new DegreeCelsius(22)), new WarnLimit(new DegreeCelsius(22)))))
+        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), null, new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -69,18 +69,18 @@ public class SensorTest {
                 new DegreeCelsius(givenSensedTemperature),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
-                        new WarnLimit(new DegreeCelsius(40)))).sensorState()).isEqualTo(expectedSensorState);
+                        new WarmLimit(new DegreeCelsius(40)))).sensorState()).isEqualTo(expectedSensorState);
     }
 
     @Test
-    public void should_fail_fast_when_warn_limit_is_before_cold_limit() {
+    public void should_fail_fast_when_warm_limit_is_before_cold_limit() {
         assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()),
                 new DegreeCelsius(0),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
-                        new WarnLimit(new DegreeCelsius(20)))).sensorState())
+                        new WarmLimit(new DegreeCelsius(20)))).sensorState())
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Warn limit could not be before cold limit");
+                .hasMessage("Warm limit could not be before cold limit");
     }
 
 }

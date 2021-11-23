@@ -10,7 +10,7 @@ ALTER TABLE public.hibernate_sequence OWNER TO username;
 CREATE TABLE public.t_limits (
     id integer NOT NULL,
     coldlimit integer,
-    warnlimit integer
+    warmlimit integer
 );
 
 ALTER TABLE public.t_limits OWNER TO username;
