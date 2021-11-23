@@ -59,4 +59,24 @@ public class DegreeCelsiusTest {
         }
     }
 
+    @Nested
+    public static class IsPositive {
+
+        @Test
+        public void should_be_positive() {
+            assertThat(new DegreeCelsius(10).isPositive()).isTrue();
+        }
+
+        @Test
+        public void should_be_negative() {
+            assertThat(new DegreeCelsius(-10).isPositive()).isFalse();
+        }
+
+        @Test
+        public void should_not_be_positive_nor_negative() {
+            assertThat(new DegreeCelsius(0).isPositive()).isFalse();
+        }
+
+    }
+
 }

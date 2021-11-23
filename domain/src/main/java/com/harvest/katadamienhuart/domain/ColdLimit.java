@@ -8,6 +8,9 @@ public final class ColdLimit {
 
     public ColdLimit(final DegreeCelsius limit) {
         this.limit = Objects.requireNonNull(limit);
+        if (!limit.isPositive()) {
+            throw new ColdLimitMustBePositiveException(limit);
+        }
     }
 
     public DegreeCelsius limit() {

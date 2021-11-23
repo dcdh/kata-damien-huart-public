@@ -8,6 +8,9 @@ public final class WarnLimit {
 
     public WarnLimit(final DegreeCelsius limit) {
         this.limit = Objects.requireNonNull(limit);
+        if (!limit.isPositive()) {
+            throw new WarnLimitMustBePositiveException(limit);
+        }
     }
 
     public DegreeCelsius limit() {

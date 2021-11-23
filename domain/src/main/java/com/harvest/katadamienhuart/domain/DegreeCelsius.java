@@ -22,6 +22,10 @@ public final class DegreeCelsius {
         return temperature;
     }
 
+    public boolean isPositive() {
+        return temperature > 0;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
