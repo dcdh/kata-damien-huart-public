@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 @QuarkusTest
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class E2ETest {
+public class ApplicationTest {
 
     @Test
     @Order(1)

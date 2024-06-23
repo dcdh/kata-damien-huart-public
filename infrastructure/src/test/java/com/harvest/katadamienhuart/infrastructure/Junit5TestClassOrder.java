@@ -12,7 +12,7 @@ import java.util.Comparator;
  * Run test following this priority:
  * Run infra first
  * Run Managed next
- * End by running E2ETest
+ * End by running ApplicationTest
  */
 public class Junit5TestClassOrder implements ClassOrderer {
 
@@ -22,7 +22,7 @@ public class Junit5TestClassOrder implements ClassOrderer {
     }
 
     private static int getOrder(final ClassDescriptor classDescriptor) {
-        if (classDescriptor.getTestClass().equals(E2ETest.class)) {
+        if (classDescriptor.getTestClass().equals(ApplicationTest.class)) {
             return 3;
         } else if (classDescriptor.getTestClass().getPackageName().contains("usecase")) {
             return 2;
