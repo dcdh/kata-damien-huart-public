@@ -27,14 +27,14 @@ public class SensorEndpoint {
     @GET
     @Path("/askForTemperature")
     @Produces(MediaType.APPLICATION_JSON)
-    public SensorDTO getTemperature() {
+    public SensorDTO askForTemperature() {
         return new SensorDTO(askForTemperatureUseCase.execute(new AskForTemperatureCommand()));
     }
 
     @GET
     @Path("/retrieveLast15Temperatures")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SensorDTO> getLast15Temperatures() {
+    public List<SensorDTO> retrieveLast15Temperatures() {
         return postgresSensorRepository.getLast15OrderedBySensedAtDesc()
                 .stream()
                 .map(SensorDTO::new).collect(Collectors.toList());
