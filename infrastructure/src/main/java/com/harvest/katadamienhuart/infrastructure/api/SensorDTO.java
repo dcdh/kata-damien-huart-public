@@ -6,17 +6,17 @@ import com.harvest.katadamienhuart.domain.SensorState;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public record SensorDTO(SensorState sensorState, Integer sensedTemperature, ZonedDateTime sensedAt) {
+public record SensorDTO(SensorState sensorState, Integer takenTemperature, ZonedDateTime takenAt) {
     public SensorDTO {
         Objects.requireNonNull(sensorState);
-        Objects.requireNonNull(sensedTemperature);
-        Objects.requireNonNull(sensedAt);
+        Objects.requireNonNull(takenTemperature);
+        Objects.requireNonNull(takenAt);
     }
 
     public SensorDTO(final Sensor sensor) {
         this(sensor.sensorState(),
-                sensor.sensedTemperature().temperature(),
-                sensor.sensedAt().at());
+                sensor.takenTemperature().temperature().temperature(),
+                sensor.takenAt().at());
     }
 
 }

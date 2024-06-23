@@ -26,8 +26,8 @@ ALTER TABLE t_limits OWNER TO username;
 
 CREATE TABLE t_sensor (
     id integer NOT NULL,
-    sensedat timestamp with time zone,
-    sensedtemperature integer,
+    takenat timestamp with time zone,
+    takentemperature integer,
     sensorstate character varying(255)
 );
 

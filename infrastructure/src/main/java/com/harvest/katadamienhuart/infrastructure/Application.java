@@ -1,11 +1,11 @@
 package com.harvest.katadamienhuart.infrastructure;
 
 import com.harvest.katadamienhuart.domain.*;
-import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
-
+import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
+
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
@@ -18,20 +18,20 @@ public class Application {
             private Integer currentTemperature = 10;
 
             @Override
-            public DegreeCelsius takeTemperature() {
-                return new DegreeCelsius(currentTemperature++);
+            public TakenTemperature takeTemperature() {
+                return new TakenTemperature(new DegreeCelsius(currentTemperature++));
             }
         };
     }
 
     @Produces
     @ApplicationScoped
-    public SensedAtProvider sensedAtProvider() {
-        return new SensedAtProvider() {
+    public TakenAtProvider sensedAtProvider() {
+        return new TakenAtProvider() {
             @Override
-            public SensedAt now() {
+            public TakenAt now() {
                 // I do not have any time context - choose UTC by default
-                return new SensedAt(ZonedDateTime.now(ZoneOffset.UTC));
+                return new TakenAt(ZonedDateTime.now(ZoneOffset.UTC));
             }
         };
     }
@@ -39,10 +39,10 @@ public class Application {
     @Produces
     @ApplicationScoped
     public TakeTemperatureUseCase getTemperatureUseCaseProducer(final TemperatureCaptor temperatureCaptor,
-                                                                final SensedAtProvider sensedAtProvider,
+                                                                final TakenAtProvider takenAtProvider,
                                                                 final SensorRepository sensorRepository,
                                                                 final LimitsRepository limitsRepository) {
-        return new TakeTemperatureUseCase(temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
+        return new TakeTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
     }
 
     @Produces

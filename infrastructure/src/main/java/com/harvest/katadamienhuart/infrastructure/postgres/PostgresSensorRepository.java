@@ -26,7 +26,7 @@ public class PostgresSensorRepository implements SensorRepository {
     }
 
     public List<Sensor> getLast15OrderedBySensedAtDesc() {
-        return entityManager.createQuery("SELECT s FROM SensorEntity s ORDER BY sensedAt DESC", SensorEntity.class)
+        return entityManager.createQuery("SELECT s FROM SensorEntity s ORDER BY takenAt DESC", SensorEntity.class)
                 .setMaxResults(15)
                 .getResultList()
                 .stream()

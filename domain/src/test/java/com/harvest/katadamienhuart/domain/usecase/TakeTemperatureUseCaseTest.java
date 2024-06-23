@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class TakeTemperatureUseCaseTest {
 
     private TemperatureCaptor temperatureCaptor;
-    private SensedAtProvider sensedAtProvider;
+    private TakenAtProvider takenAtProvider;
     private SensorRepository sensorRepository;
     private LimitsRepository limitsRepository;
     private TakeTemperatureUseCase takeTemperatureUseCase;
@@ -23,18 +23,18 @@ public class TakeTemperatureUseCaseTest {
     @BeforeEach
     public void setup() {
         temperatureCaptor = mock(TemperatureCaptor.class);
-        sensedAtProvider = mock(SensedAtProvider.class);
+        takenAtProvider = mock(TakenAtProvider.class);
         sensorRepository = mock(SensorRepository.class);
         limitsRepository = mock(LimitsRepository.class);
-        takeTemperatureUseCase = new TakeTemperatureUseCase(temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
+        takeTemperatureUseCase = new TakeTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
     }
 
     @Test
     public void should_take_temperature() {
         // Given
-        doReturn(new DegreeCelsius(30)).when(temperatureCaptor).takeTemperature();
+        doReturn(new TakenTemperature(new DegreeCelsius(30))).when(temperatureCaptor).takeTemperature();
         final ZonedDateTime sensedAt = ZonedDateTime.now();
-        doReturn(new SensedAt(sensedAt)).when(sensedAtProvider).now();
+        doReturn(new TakenAt(sensedAt)).when(takenAtProvider).now();
         doReturn(new Limits(
                 new ColdLimit(new DegreeCelsius(22)),
                 new WarmLimit(new DegreeCelsius(40))
@@ -45,8 +45,8 @@ public class TakeTemperatureUseCaseTest {
 
         // Then
         final Sensor expectedSensor = new Sensor(
-                new SensedAt(sensedAt),
-                new DegreeCelsius(30),
+                new TakenAt(sensedAt),
+                new TakenTemperature(new DegreeCelsius(30)),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))
@@ -58,17 +58,17 @@ public class TakeTemperatureUseCaseTest {
     @Test
     public void should_use_default_limits_when_not_defined() {
         // Given
-        doReturn(new DegreeCelsius(30)).when(temperatureCaptor).takeTemperature();
+        doReturn(new TakenTemperature(new DegreeCelsius(30))).when(temperatureCaptor).takeTemperature();
         final ZonedDateTime sensedAt = ZonedDateTime.now();
-        doReturn(new SensedAt(sensedAt)).when(sensedAtProvider).now();
+        doReturn(new TakenAt(sensedAt)).when(takenAtProvider).now();
 
         // When
         final Sensor sensor = takeTemperatureUseCase.execute(new TakeTemperatureCommand());
 
         // Then
         final Sensor expectedSensor = new Sensor(
-                new SensedAt(sensedAt),
-                new DegreeCelsius(30),
+                new TakenAt(sensedAt),
+                new TakenTemperature(new DegreeCelsius(30)),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))

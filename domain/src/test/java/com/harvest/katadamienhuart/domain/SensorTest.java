@@ -13,25 +13,25 @@ public class SensorTest {
 
     @Test
     public void should_fail_fast_when_sensed_at_is_null() {
-        assertThatThrownBy(() -> new Sensor(null, new DegreeCelsius(10), new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
+        assertThatThrownBy(() -> new Sensor(null, new TakenTemperature(new DegreeCelsius(10)), new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_fast_when_sensed_temperature_is_null() {
-        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), null, new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
+        assertThatThrownBy(() -> new Sensor(new TakenAt(ZonedDateTime.now()), null, new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_fast_when_limits_is_null() {
-        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), (Limits) null))
+        assertThatThrownBy(() -> new Sensor(new TakenAt(ZonedDateTime.now()), new TakenTemperature(new DegreeCelsius(10)), (Limits) null))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void should_fail_fast_when_sensor_state_is_null() {
-        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()), new DegreeCelsius(10), (SensorState) null))
+        assertThatThrownBy(() -> new Sensor(new TakenAt(ZonedDateTime.now()), new TakenTemperature(new DegreeCelsius(10)), (SensorState) null))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -59,8 +59,8 @@ public class SensorTest {
             "39,WARM",
             "40,HOT"})
     public void should_return_expected_state(final Integer givenSensedTemperature, final SensorState expectedSensorState) {
-        assertThat(new Sensor(new SensedAt(ZonedDateTime.now()),
-                new DegreeCelsius(givenSensedTemperature),
+        assertThat(new Sensor(new TakenAt(ZonedDateTime.now()),
+                new TakenTemperature(new DegreeCelsius(givenSensedTemperature)),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))).sensorState()).isEqualTo(expectedSensorState);
@@ -68,8 +68,8 @@ public class SensorTest {
 
     @Test
     public void should_fail_when_warm_limit_is_before_cold_limit() {
-        assertThatThrownBy(() -> new Sensor(new SensedAt(ZonedDateTime.now()),
-                new DegreeCelsius(0),
+        assertThatThrownBy(() -> new Sensor(new TakenAt(ZonedDateTime.now()),
+                new TakenTemperature(new DegreeCelsius(0)),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(20)))).sensorState())

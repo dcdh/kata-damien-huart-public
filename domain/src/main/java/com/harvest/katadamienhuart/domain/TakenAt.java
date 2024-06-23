@@ -3,9 +3,9 @@ package com.harvest.katadamienhuart.domain;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public record SensedAt(ZonedDateTime at) {
+public record TakenAt(ZonedDateTime at) {
 
-    public SensedAt {
+    public TakenAt {
         Objects.requireNonNull(at);
     }
 }

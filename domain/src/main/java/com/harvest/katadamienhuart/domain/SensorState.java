@@ -7,8 +7,8 @@ public enum SensorState {
     COLD {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
-            return sensedTemperature.isBeforeThan(coldLimit.limit());
+        public boolean matchState(final TakenTemperature takenTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
+            return takenTemperature.isBeforeThan(coldLimit.limit());
         }
 
     },
@@ -16,9 +16,9 @@ public enum SensorState {
     WARM {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
-            return sensedTemperature.isGreaterThanOrEquals(coldLimit.limit()) &&
-                    sensedTemperature.isBeforeThan(warmLimit.limit());
+        public boolean matchState(final TakenTemperature takenTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
+            return takenTemperature.isGreaterThanOrEquals(coldLimit.limit()) &&
+                    takenTemperature.isBeforeThan(warmLimit.limit());
         }
 
     },
@@ -26,17 +26,17 @@ public enum SensorState {
     HOT {
 
         @Override
-        public boolean matchState(final DegreeCelsius sensedTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
-            return sensedTemperature.isGreaterThanOrEquals(warmLimit.limit());
+        public boolean matchState(final TakenTemperature takenTemperature, final ColdLimit coldLimit, final WarmLimit warmLimit) {
+            return takenTemperature.isGreaterThanOrEquals(warmLimit.limit());
         }
 
     };
 
-    public abstract boolean matchState(DegreeCelsius sensedTemperature, ColdLimit coldLimit, WarmLimit warmLimit);
+    public abstract boolean matchState(TakenTemperature takenTemperature, ColdLimit coldLimit, WarmLimit warmLimit);
 
-    public static final SensorState fromSensedTemperature(final DegreeCelsius sensedTemperature, final Limits limits) {
+    public static SensorState fromSensedTemperature(final TakenTemperature takenTemperature, final Limits limits) {
         return Stream.of(SensorState.values())
-                .filter(sensorState -> sensorState.matchState(sensedTemperature, limits.coldLimit(), limits.warmLimit()))
+                .filter(sensorState -> sensorState.matchState(takenTemperature, limits.coldLimit(), limits.warmLimit()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Should not be here"));
     }

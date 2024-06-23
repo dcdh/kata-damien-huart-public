@@ -26,7 +26,7 @@ public class ApplicationTest {
                 .log().all()
                 .statusCode(200)
                 .body("sensorState", equalTo("COLD"))
-                .body("sensedTemperature", equalTo(10));
+                .body("takenTemperature", equalTo(10));
     }
 
     @Test

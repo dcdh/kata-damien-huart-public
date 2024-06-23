@@ -17,27 +17,27 @@ public class SensorEntity {
     private Integer id;
 
     @NotNull
-    public ZonedDateTime sensedAt;
+    public ZonedDateTime takenAt;
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
     public SensorState sensorState;
 
     @NotNull
-    public Integer sensedTemperature;
+    public Integer takenTemperature;
 
     public SensorEntity() {}
 
     public SensorEntity(final Sensor sensor) {
-        this.sensedAt = sensor.sensedAt().at();
+        this.takenAt = sensor.takenAt().at();
         this.sensorState = sensor.sensorState();
-        this.sensedTemperature = sensor.sensedTemperature().temperature();
+        this.takenTemperature = sensor.takenTemperature().temperature().temperature();
     }
 
     public Sensor toSensor() {
         return new Sensor(
-                new SensedAt(sensedAt.withZoneSameInstant(ZoneOffset.UTC)),
-                new DegreeCelsius(sensedTemperature),
+                new TakenAt(takenAt.withZoneSameInstant(ZoneOffset.UTC)),
+                new TakenTemperature(new DegreeCelsius(takenTemperature)),
                 sensorState);
     }
 
@@ -46,11 +46,11 @@ public class SensorEntity {
         if (this == o) return true;
         if (!(o instanceof SensorEntity)) return false;
         final SensorEntity that = (SensorEntity) o;
-        return Objects.equals(sensedAt, that.sensedAt);
+        return Objects.equals(takenAt, that.takenAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sensedAt);
+        return Objects.hash(takenAt);
     }
 }

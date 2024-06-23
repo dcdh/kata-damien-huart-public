@@ -1,9 +1,6 @@
 package com.harvest.katadamienhuart.infrastructure.api;
 
-import com.harvest.katadamienhuart.domain.DegreeCelsius;
-import com.harvest.katadamienhuart.domain.SensedAt;
-import com.harvest.katadamienhuart.domain.Sensor;
-import com.harvest.katadamienhuart.domain.SensorState;
+import com.harvest.katadamienhuart.domain.*;
 import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import com.harvest.katadamienhuart.infrastructure.postgres.PostgresSensorRepository;
 import io.quarkus.test.InjectMock;
@@ -34,8 +31,8 @@ public class SensorEndpointTest {
     public void should_get_temperature() {
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(new Sensor(
-                new SensedAt(sensedAt),
-                new DegreeCelsius(22),
+                new TakenAt(sensedAt),
+                new TakenTemperature(new DegreeCelsius(22)),
                 SensorState.WARM))
                 .when(takeTemperatureUseCase).execute(any());
 
@@ -53,9 +50,9 @@ public class SensorEndpointTest {
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(List.of(
                 new Sensor(
-                new SensedAt(sensedAt),
-                new DegreeCelsius(22),
-                SensorState.WARM)))
+                        new TakenAt(sensedAt),
+                        new TakenTemperature(new DegreeCelsius(22)),
+                        SensorState.WARM)))
                 .when(postgresSensorRepository).getLast15OrderedBySensedAtDesc();
 
         given()

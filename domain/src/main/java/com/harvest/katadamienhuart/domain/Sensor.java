@@ -2,16 +2,16 @@ package com.harvest.katadamienhuart.domain;
 
 import java.util.Objects;
 
-public record Sensor(SensedAt sensedAt, DegreeCelsius sensedTemperature, SensorState sensorState) {
+public record Sensor(TakenAt takenAt, TakenTemperature takenTemperature, SensorState sensorState) {
 
-    public Sensor(final SensedAt sensedAt, final DegreeCelsius sensedTemperature, final Limits limits) {
-        this(sensedAt, sensedTemperature,
-                SensorState.fromSensedTemperature(sensedTemperature, Objects.requireNonNull(limits)));
+    public Sensor(final TakenAt takenAt, final TakenTemperature takenTemperature, final Limits limits) {
+        this(takenAt, takenTemperature,
+                SensorState.fromSensedTemperature(takenTemperature, Objects.requireNonNull(limits)));
     }
 
     public Sensor {
-        Objects.requireNonNull(sensedAt);
-        Objects.requireNonNull(sensedTemperature);
+        Objects.requireNonNull(takenAt);
+        Objects.requireNonNull(takenTemperature);
         Objects.requireNonNull(sensorState);
     }
 }
