@@ -2,7 +2,7 @@ package com.harvest.katadamienhuart.infrastructure;
 
 import com.harvest.katadamienhuart.domain.*;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
-import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
+import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 
@@ -38,11 +38,11 @@ public class Application {
 
     @Produces
     @ApplicationScoped
-    public TakeTemperatureUseCase getTemperatureUseCaseProducer(final TemperatureCaptor temperatureCaptor,
-                                                                final TakenAtProvider takenAtProvider,
-                                                                final SensorRepository sensorRepository,
-                                                                final LimitsRepository limitsRepository) {
-        return new TakeTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
+    public AskForTemperatureUseCase getTemperatureUseCaseProducer(final TemperatureCaptor temperatureCaptor,
+                                                                  final TakenAtProvider takenAtProvider,
+                                                                  final SensorRepository sensorRepository,
+                                                                  final LimitsRepository limitsRepository) {
+        return new AskForTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
     }
 
     @Produces

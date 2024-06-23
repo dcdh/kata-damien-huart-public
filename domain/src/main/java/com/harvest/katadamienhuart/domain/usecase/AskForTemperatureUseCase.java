@@ -5,17 +5,17 @@ import com.harvest.katadamienhuart.domain.*;
 import java.util.Objects;
 import java.util.Optional;
 
-public class TakeTemperatureUseCase implements UseCase<TakeTemperatureCommand, Sensor> {
+public class AskForTemperatureUseCase implements UseCase<AskForTemperatureCommand, Sensor> {
 
     private final TemperatureCaptor temperatureCaptor;
     private final TakenAtProvider takenAtProvider;
     private final SensorRepository sensorRepository;
     private final LimitsRepository limitsRepository;
 
-    public TakeTemperatureUseCase(final TemperatureCaptor temperatureCaptor,
-                                  final TakenAtProvider takenAtProvider,
-                                  final SensorRepository sensorRepository,
-                                  final LimitsRepository limitsRepository) {
+    public AskForTemperatureUseCase(final TemperatureCaptor temperatureCaptor,
+                                    final TakenAtProvider takenAtProvider,
+                                    final SensorRepository sensorRepository,
+                                    final LimitsRepository limitsRepository) {
         this.temperatureCaptor = Objects.requireNonNull(temperatureCaptor);
         this.takenAtProvider = Objects.requireNonNull(takenAtProvider);
         this.sensorRepository = Objects.requireNonNull(sensorRepository);
@@ -23,7 +23,7 @@ public class TakeTemperatureUseCase implements UseCase<TakeTemperatureCommand, S
     }
 
     @Override
-    public Sensor execute(final TakeTemperatureCommand command) {
+    public Sensor execute(final AskForTemperatureCommand command) {
         final TakenTemperature takenTemperature = temperatureCaptor.takeTemperature();
         final Limits limits = Optional.ofNullable(limitsRepository.getLimits())
                 .orElseGet(Limits::ofDefault);

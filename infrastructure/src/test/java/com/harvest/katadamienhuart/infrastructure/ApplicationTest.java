@@ -21,7 +21,7 @@ public class ApplicationTest {
     public void should_get_temperature() {
         given()
                 .when()
-                .get("/sensor/takeTemperature")
+                .get("/sensor/askForTemperature")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -47,7 +47,7 @@ public class ApplicationTest {
     public void should_get_last_15_temperatures() {
         given()
                 .when()
-                .get("/sensor/last15Temperatures")
+                .get("/sensor/retrieveLast15Temperatures")
                 .then()
                 .log().all()
                 .statusCode(200);

@@ -12,13 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class TakeTemperatureUseCaseTest {
+public class AskForTemperatureUseCaseTest {
 
     private TemperatureCaptor temperatureCaptor;
     private TakenAtProvider takenAtProvider;
     private SensorRepository sensorRepository;
     private LimitsRepository limitsRepository;
-    private TakeTemperatureUseCase takeTemperatureUseCase;
+    private AskForTemperatureUseCase askForTemperatureUseCase;
 
     @BeforeEach
     public void setup() {
@@ -26,7 +26,7 @@ public class TakeTemperatureUseCaseTest {
         takenAtProvider = mock(TakenAtProvider.class);
         sensorRepository = mock(SensorRepository.class);
         limitsRepository = mock(LimitsRepository.class);
-        takeTemperatureUseCase = new TakeTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
+        askForTemperatureUseCase = new AskForTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class TakeTemperatureUseCaseTest {
         )).when(limitsRepository).getLimits();
 
         // When
-        final Sensor sensor = takeTemperatureUseCase.execute(new TakeTemperatureCommand());
+        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureCommand());
 
         // Then
         final Sensor expectedSensor = new Sensor(
@@ -63,7 +63,7 @@ public class TakeTemperatureUseCaseTest {
         doReturn(new TakenAt(sensedAt)).when(takenAtProvider).now();
 
         // When
-        final Sensor sensor = takeTemperatureUseCase.execute(new TakeTemperatureCommand());
+        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureCommand());
 
         // Then
         final Sensor expectedSensor = new Sensor(

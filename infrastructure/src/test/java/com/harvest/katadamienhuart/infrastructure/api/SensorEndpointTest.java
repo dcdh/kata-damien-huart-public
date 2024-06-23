@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.api;
 
 import com.harvest.katadamienhuart.domain.*;
-import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
+import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
 import com.harvest.katadamienhuart.infrastructure.postgres.PostgresSensorRepository;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -22,23 +22,23 @@ import static org.mockito.Mockito.doReturn;
 public class SensorEndpointTest {
 
     @InjectMock
-    private TakeTemperatureUseCase takeTemperatureUseCase;
+    private AskForTemperatureUseCase askForTemperatureUseCase;
 
     @InjectMock
     private PostgresSensorRepository postgresSensorRepository;
 
     @Test
-    public void should_get_temperature() {
+    public void should_take_temperature() {
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(new Sensor(
                 new TakenAt(sensedAt),
                 new TakenTemperature(new DegreeCelsius(22)),
                 SensorState.WARM))
-                .when(takeTemperatureUseCase).execute(any());
+                .when(askForTemperatureUseCase).execute(any());
 
         given()
                 .when()
-                .get("/sensor/takeTemperature")
+                .get("/sensor/askForTemperature")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -46,7 +46,7 @@ public class SensorEndpointTest {
     }
 
     @Test
-    public void should_get_last_15_temperatures() {
+    public void should_retrieve_last_15_temperatures() {
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(List.of(
                 new Sensor(
@@ -57,7 +57,7 @@ public class SensorEndpointTest {
 
         given()
                 .when()
-                .get("/sensor/last15Temperatures")
+                .get("/sensor/retrieveLast15Temperatures")
                 .then()
                 .log().all()
                 .statusCode(200)
