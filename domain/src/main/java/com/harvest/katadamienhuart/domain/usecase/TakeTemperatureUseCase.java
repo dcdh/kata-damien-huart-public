@@ -26,8 +26,7 @@ public class TakeTemperatureUseCase implements UseCase<TakeTemperatureCommand, S
     public Sensor execute(final TakeTemperatureCommand command) {
         final TakenTemperature takenTemperature = temperatureCaptor.takeTemperature();
         final Limits limits = Optional.ofNullable(limitsRepository.getLimits())
-                .orElseGet(() -> new Limits(new ColdLimit(new DegreeCelsius(22)),
-                        new WarmLimit(new DegreeCelsius(40))));
+                .orElseGet(Limits::ofDefault);
         final TakenAt takenAt = takenAtProvider.now();
         final Sensor sensor = new Sensor(takenAt, takenTemperature, limits);
         sensorRepository.save(sensor);

@@ -11,4 +11,9 @@ public record Limits(ColdLimit coldLimit, WarmLimit warmLimit) {
             throw new WarmLimitMustBeSuperiorToColdLimitException(coldLimit, warmLimit);
         }
     }
+
+    public static Limits ofDefault() {
+        return new Limits(new ColdLimit(new DegreeCelsius(22)),
+                new WarmLimit(new DegreeCelsius(40)));
+    }
 }
