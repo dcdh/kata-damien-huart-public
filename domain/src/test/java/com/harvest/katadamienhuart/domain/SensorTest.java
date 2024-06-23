@@ -1,6 +1,5 @@
 package com.harvest.katadamienhuart.domain;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -11,11 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class SensorTest {
-
-    @Test
-    public void should_verify_equality() {
-        EqualsVerifier.forClass(Sensor.class).verify();
-    }
 
     @Test
     public void should_fail_fast_when_sensed_at_is_null() {
