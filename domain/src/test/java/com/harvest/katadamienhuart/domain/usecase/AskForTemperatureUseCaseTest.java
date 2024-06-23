@@ -4,28 +4,35 @@ import com.harvest.katadamienhuart.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZonedDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AskForTemperatureUseCaseTest {
 
-    private TemperatureCaptor temperatureCaptor;
-    private TakenAtProvider takenAtProvider;
-    private SensorRepository sensorRepository;
-    private LimitsRepository limitsRepository;
-    private AskForTemperatureUseCase askForTemperatureUseCase;
+    @Mock
+    TemperatureCaptor temperatureCaptor;
+
+    @Mock
+    TakenAtProvider takenAtProvider;
+
+    @Mock
+    SensorRepository sensorRepository;
+
+    @Mock
+    LimitsRepository limitsRepository;
+
+    @Mock
+    AskForTemperatureUseCase askForTemperatureUseCase;
 
     @BeforeEach
     public void setup() {
-        temperatureCaptor = mock(TemperatureCaptor.class);
-        takenAtProvider = mock(TakenAtProvider.class);
-        sensorRepository = mock(SensorRepository.class);
-        limitsRepository = mock(LimitsRepository.class);
         askForTemperatureUseCase = new AskForTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
     }
 
@@ -51,8 +58,11 @@ public class AskForTemperatureUseCaseTest {
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))
         );
-        assertThat(sensor).isEqualTo(expectedSensor);
-        verify(sensorRepository, times(1)).save(sensor);
+        assertAll(
+                () -> assertThat(sensor).isEqualTo(expectedSensor),
+                () -> verify(sensorRepository, times(1)).save(sensor),
+                () -> verify(limitsRepository, times(1)).getLimits()
+        );
     }
 
     @Test
@@ -73,6 +83,10 @@ public class AskForTemperatureUseCaseTest {
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))
         );
-        assertThat(sensor).isEqualTo(expectedSensor);
+        assertAll(
+                () -> assertThat(sensor).isEqualTo(expectedSensor),
+                () -> verify(temperatureCaptor, times(1)).takeTemperature(),
+                () -> verify(takenAtProvider, times(1)).now()
+        );
     }
 }
