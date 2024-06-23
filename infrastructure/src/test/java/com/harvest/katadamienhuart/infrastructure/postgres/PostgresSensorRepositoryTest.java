@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(MockitoExtension.class)
 public class PostgresSensorRepositoryTest extends RepositoryTest {
 
-    private static final String COUNT_SENSOR_SQL = "SELECT COUNT(*) FROM public.T_SENSOR";
+    private static final String COUNT_SENSOR_SQL = "SELECT COUNT(*) FROM T_SENSOR";
 
     @Inject
     PostgresSensorRepository postgresSensorRepository;

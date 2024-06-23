@@ -10,8 +10,8 @@ import java.util.concurrent.Callable;
 
 public abstract class RepositoryTest {
 
-    public static final String TRUNCATE_T_LIMITS = "TRUNCATE TABLE public.T_LIMITS";
-    public static final String TRUNCATE_T_SENSOR = "TRUNCATE TABLE public.T_SENSOR";
+    public static final String TRUNCATE_T_LIMITS = "TRUNCATE TABLE T_LIMITS";
+    public static final String TRUNCATE_T_SENSOR = "TRUNCATE TABLE T_SENSOR";
 
     @Inject
     UserTransaction userTransaction;

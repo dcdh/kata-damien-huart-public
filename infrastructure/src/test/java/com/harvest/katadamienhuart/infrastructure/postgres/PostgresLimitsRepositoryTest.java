@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(MockitoExtension.class)
 public class PostgresLimitsRepositoryTest extends RepositoryTest {
 
-    private static final String COUNT_LIMITS_SQL = "SELECT COUNT(*) FROM public.T_LIMITS";
+    private static final String COUNT_LIMITS_SQL = "SELECT COUNT(*) FROM T_LIMITS";
 
     @Inject
     PostgresLimitsRepository postgresLimitsRepository;
