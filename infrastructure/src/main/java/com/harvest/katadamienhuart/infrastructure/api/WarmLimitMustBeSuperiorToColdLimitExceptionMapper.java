@@ -1,4 +1,4 @@
-package com.harvest.katadamienhuart.infrastructure.interfaces;
+package com.harvest.katadamienhuart.infrastructure.api;
 
 import com.harvest.katadamienhuart.domain.WarmLimitMustBeSuperiorToColdLimitException;
 

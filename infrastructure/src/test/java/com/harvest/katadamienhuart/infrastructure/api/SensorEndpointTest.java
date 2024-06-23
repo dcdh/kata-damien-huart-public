@@ -1,4 +1,4 @@
-package com.harvest.katadamienhuart.infrastructure.interfaces;
+package com.harvest.katadamienhuart.infrastructure.api;
 
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.SensedAt;
