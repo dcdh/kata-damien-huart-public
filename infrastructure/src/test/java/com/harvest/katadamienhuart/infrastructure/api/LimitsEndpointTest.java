@@ -5,11 +5,11 @@ import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.WarmLimit;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsCommand;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
+import com.harvest.katadamienhuart.infrastructure.postgres.PostgresSensorRepository;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,11 +17,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @QuarkusTest
-@ExtendWith(MockitoExtension.class)
 public class LimitsEndpointTest {
 
     @InjectSpy
     RedefineLimitsUseCase redefineLimitsUseCase;
+
+    @InjectMock
+    PostgresSensorRepository postgresSensorRepository;
 
     @Test
     public void should_redefine_limits() {

@@ -7,8 +7,6 @@ import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -18,14 +16,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @QuarkusTest
-@ExtendWith(MockitoExtension.class)
 public class SensorEndpointTest {
 
     @InjectMock
-    private AskForTemperatureUseCase askForTemperatureUseCase;
+    AskForTemperatureUseCase askForTemperatureUseCase;
 
     @InjectMock
-    private PostgresSensorRepository postgresSensorRepository;
+    PostgresSensorRepository postgresSensorRepository;
 
     @Test
     public void should_take_temperature() {
