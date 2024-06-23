@@ -27,12 +27,9 @@ public class Application {
     @Produces
     @ApplicationScoped
     public TakenAtProvider sensedAtProvider() {
-        return new TakenAtProvider() {
-            @Override
-            public TakenAt now() {
-                // I do not have any time context - choose UTC by default
-                return new TakenAt(ZonedDateTime.now(ZoneOffset.UTC));
-            }
+        return () -> {
+            // I do not have any time context - choose UTC by default
+            return new TakenAt(ZonedDateTime.now(ZoneOffset.UTC));
         };
     }
 
