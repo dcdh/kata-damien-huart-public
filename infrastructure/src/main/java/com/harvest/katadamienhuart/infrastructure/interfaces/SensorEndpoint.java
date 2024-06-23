@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.interfaces;
 
-import com.harvest.katadamienhuart.domain.usecase.GetTemperatureCommand;
-import com.harvest.katadamienhuart.domain.usecase.GetTemperatureUseCase;
+import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureCommand;
+import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import com.harvest.katadamienhuart.infrastructure.postgres.PostgresSensorRepository;
 
 import javax.ws.rs.GET;
@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 @Path("/sensor")
 public class SensorEndpoint {
 
-    private final GetTemperatureUseCase getTemperatureUseCase;
+    private final TakeTemperatureUseCase takeTemperatureUseCase;
     private final PostgresSensorRepository postgresSensorRepository;
 
-    public SensorEndpoint(final GetTemperatureUseCase getTemperatureUseCase,
+    public SensorEndpoint(final TakeTemperatureUseCase takeTemperatureUseCase,
                           final PostgresSensorRepository postgresSensorRepository) {
-        this.getTemperatureUseCase = Objects.requireNonNull(getTemperatureUseCase);
+        this.takeTemperatureUseCase = Objects.requireNonNull(takeTemperatureUseCase);
         this.postgresSensorRepository = Objects.requireNonNull(postgresSensorRepository);
     }
 
     @GET
-    @Path("/")
+    @Path("/takeTemperature")
     @Produces(MediaType.APPLICATION_JSON)
     public SensorDTO getTemperature() {
-        return new SensorDTO(getTemperatureUseCase.execute(new GetTemperatureCommand()));
+        return new SensorDTO(takeTemperatureUseCase.execute(new TakeTemperatureCommand()));
     }
 
     @GET

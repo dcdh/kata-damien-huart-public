@@ -5,17 +5,17 @@ import com.harvest.katadamienhuart.domain.*;
 import java.util.Objects;
 import java.util.Optional;
 
-public class GetTemperatureUseCase implements UseCase<GetTemperatureCommand, Sensor> {
+public class TakeTemperatureUseCase implements UseCase<TakeTemperatureCommand, Sensor> {
 
     private final TemperatureCaptor temperatureCaptor;
     private final SensedAtProvider sensedAtProvider;
     private final SensorRepository sensorRepository;
     private final LimitsRepository limitsRepository;
 
-    public GetTemperatureUseCase(final TemperatureCaptor temperatureCaptor,
-                                 final SensedAtProvider sensedAtProvider,
-                                 final SensorRepository sensorRepository,
-                                 final LimitsRepository limitsRepository) {
+    public TakeTemperatureUseCase(final TemperatureCaptor temperatureCaptor,
+                                  final SensedAtProvider sensedAtProvider,
+                                  final SensorRepository sensorRepository,
+                                  final LimitsRepository limitsRepository) {
         this.temperatureCaptor = Objects.requireNonNull(temperatureCaptor);
         this.sensedAtProvider = Objects.requireNonNull(sensedAtProvider);
         this.sensorRepository = Objects.requireNonNull(sensorRepository);
@@ -23,8 +23,8 @@ public class GetTemperatureUseCase implements UseCase<GetTemperatureCommand, Sen
     }
 
     @Override
-    public Sensor execute(final GetTemperatureCommand command) {
-        final DegreeCelsius sensedTemperature = temperatureCaptor.getTemperature();
+    public Sensor execute(final TakeTemperatureCommand command) {
+        final DegreeCelsius sensedTemperature = temperatureCaptor.takeTemperature();
         final Limits limits = Optional.ofNullable(limitsRepository.getLimits())
                 .orElseGet(() -> new Limits(new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40))));

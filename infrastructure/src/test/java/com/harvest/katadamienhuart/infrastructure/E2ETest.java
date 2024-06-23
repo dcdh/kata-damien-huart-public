@@ -21,7 +21,7 @@ public class E2ETest {
     public void should_get_temperature() {
         given()
                 .when()
-                .get("/sensor")
+                .get("/sensor/takeTemperature")
                 .then()
                 .log().all()
                 .statusCode(200)

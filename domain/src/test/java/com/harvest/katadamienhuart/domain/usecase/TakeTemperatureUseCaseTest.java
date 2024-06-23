@@ -12,13 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class GetTemperatureUseCaseTest {
+public class TakeTemperatureUseCaseTest {
 
     private TemperatureCaptor temperatureCaptor;
     private SensedAtProvider sensedAtProvider;
     private SensorRepository sensorRepository;
     private LimitsRepository limitsRepository;
-    private GetTemperatureUseCase getTemperatureUseCase;
+    private TakeTemperatureUseCase takeTemperatureUseCase;
 
     @BeforeEach
     public void setup() {
@@ -26,13 +26,13 @@ public class GetTemperatureUseCaseTest {
         sensedAtProvider = mock(SensedAtProvider.class);
         sensorRepository = mock(SensorRepository.class);
         limitsRepository = mock(LimitsRepository.class);
-        getTemperatureUseCase = new GetTemperatureUseCase(temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
+        takeTemperatureUseCase = new TakeTemperatureUseCase(temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
     }
 
     @Test
-    public void should_get_temperature() {
+    public void should_take_temperature() {
         // Given
-        doReturn(new DegreeCelsius(30)).when(temperatureCaptor).getTemperature();
+        doReturn(new DegreeCelsius(30)).when(temperatureCaptor).takeTemperature();
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(new SensedAt(sensedAt)).when(sensedAtProvider).now();
         doReturn(new Limits(
@@ -41,7 +41,7 @@ public class GetTemperatureUseCaseTest {
         )).when(limitsRepository).getLimits();
 
         // When
-        final Sensor sensor = getTemperatureUseCase.execute(new GetTemperatureCommand());
+        final Sensor sensor = takeTemperatureUseCase.execute(new TakeTemperatureCommand());
 
         // Then
         final Sensor expectedSensor = new Sensor(
@@ -58,12 +58,12 @@ public class GetTemperatureUseCaseTest {
     @Test
     public void should_use_default_limits_when_not_defined() {
         // Given
-        doReturn(new DegreeCelsius(30)).when(temperatureCaptor).getTemperature();
+        doReturn(new DegreeCelsius(30)).when(temperatureCaptor).takeTemperature();
         final ZonedDateTime sensedAt = ZonedDateTime.now();
         doReturn(new SensedAt(sensedAt)).when(sensedAtProvider).now();
 
         // When
-        final Sensor sensor = getTemperatureUseCase.execute(new GetTemperatureCommand());
+        final Sensor sensor = takeTemperatureUseCase.execute(new TakeTemperatureCommand());
 
         // Then
         final Sensor expectedSensor = new Sensor(

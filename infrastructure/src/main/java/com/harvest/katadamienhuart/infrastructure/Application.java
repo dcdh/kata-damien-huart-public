@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure;
 
 import com.harvest.katadamienhuart.domain.*;
-import com.harvest.katadamienhuart.domain.usecase.GetTemperatureUseCase;
+import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,7 +18,7 @@ public class Application {
             private Integer currentTemperature = 10;
 
             @Override
-            public DegreeCelsius getTemperature() {
+            public DegreeCelsius takeTemperature() {
                 return new DegreeCelsius(currentTemperature++);
             }
         };
@@ -38,11 +38,11 @@ public class Application {
 
     @Produces
     @ApplicationScoped
-    public GetTemperatureUseCase getTemperatureUseCaseProducer(final TemperatureCaptor temperatureCaptor,
-                                                               final SensedAtProvider sensedAtProvider,
-                                                               final SensorRepository sensorRepository,
-                                                               final LimitsRepository limitsRepository) {
-        return new GetTemperatureUseCase(temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
+    public TakeTemperatureUseCase getTemperatureUseCaseProducer(final TemperatureCaptor temperatureCaptor,
+                                                                final SensedAtProvider sensedAtProvider,
+                                                                final SensorRepository sensorRepository,
+                                                                final LimitsRepository limitsRepository) {
+        return new TakeTemperatureUseCase(temperatureCaptor, sensedAtProvider, sensorRepository, limitsRepository);
     }
 
     @Produces

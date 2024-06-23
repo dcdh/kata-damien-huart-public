@@ -4,7 +4,7 @@ import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.SensedAt;
 import com.harvest.katadamienhuart.domain.Sensor;
 import com.harvest.katadamienhuart.domain.SensorState;
-import com.harvest.katadamienhuart.domain.usecase.GetTemperatureUseCase;
+import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import com.harvest.katadamienhuart.infrastructure.postgres.PostgresSensorRepository;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.doReturn;
 public class SensorEndpointTest {
 
     @InjectMock
-    private GetTemperatureUseCase getTemperatureUseCase;
+    private TakeTemperatureUseCase takeTemperatureUseCase;
 
     @InjectMock
     private PostgresSensorRepository postgresSensorRepository;
@@ -37,11 +37,11 @@ public class SensorEndpointTest {
                 new SensedAt(sensedAt),
                 new DegreeCelsius(22),
                 SensorState.WARM))
-                .when(getTemperatureUseCase).execute(any());
+                .when(takeTemperatureUseCase).execute(any());
 
         given()
                 .when()
-                .get("/sensor")
+                .get("/sensor/takeTemperature")
                 .then()
                 .log().all()
                 .statusCode(200)
