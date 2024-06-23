@@ -3,9 +3,9 @@ package com.harvest.katadamienhuart.infrastructure.postgres;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.UserTransaction;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.UserTransaction;
 import java.util.concurrent.Callable;
 
 public abstract class RepositoryTest {

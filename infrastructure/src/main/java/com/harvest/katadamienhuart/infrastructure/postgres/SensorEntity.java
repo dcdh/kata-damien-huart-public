@@ -2,8 +2,8 @@ package com.harvest.katadamienhuart.infrastructure.postgres;
 
 import com.harvest.katadamienhuart.domain.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Objects;

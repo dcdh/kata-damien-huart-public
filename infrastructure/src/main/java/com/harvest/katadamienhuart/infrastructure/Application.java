@@ -4,8 +4,8 @@ import com.harvest.katadamienhuart.domain.*;
 import com.harvest.katadamienhuart.domain.usecase.TakeTemperatureUseCase;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 

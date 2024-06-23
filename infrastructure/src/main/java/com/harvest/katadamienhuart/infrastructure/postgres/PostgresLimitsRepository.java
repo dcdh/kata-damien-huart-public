@@ -3,10 +3,10 @@ package com.harvest.katadamienhuart.infrastructure.postgres;
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.LimitsRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
 import java.util.Objects;
 
 @ApplicationScoped
