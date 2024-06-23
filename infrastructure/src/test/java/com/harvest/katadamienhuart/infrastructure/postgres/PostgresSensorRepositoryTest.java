@@ -4,8 +4,6 @@ import com.harvest.katadamienhuart.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -14,7 +12,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @QuarkusTest
-@ExtendWith(MockitoExtension.class)
 public class PostgresSensorRepositoryTest extends RepositoryTest {
 
     private static final String COUNT_SENSOR_SQL = "SELECT COUNT(*) FROM T_SENSOR";

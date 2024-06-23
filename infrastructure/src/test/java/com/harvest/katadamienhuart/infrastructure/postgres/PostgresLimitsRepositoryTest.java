@@ -5,16 +5,12 @@ import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.WarmLimit;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @QuarkusTest
-@ExtendWith(MockitoExtension.class)
 public class PostgresLimitsRepositoryTest extends RepositoryTest {
 
     private static final String COUNT_LIMITS_SQL = "SELECT COUNT(*) FROM T_LIMITS";
