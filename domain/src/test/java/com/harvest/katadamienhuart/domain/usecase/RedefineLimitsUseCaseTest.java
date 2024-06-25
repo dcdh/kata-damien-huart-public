@@ -34,5 +34,4 @@ public class RedefineLimitsUseCaseTest {
                 () -> verify(limitsRepository, times(1)).store(expectedLimits)
         );
     }
-
 }

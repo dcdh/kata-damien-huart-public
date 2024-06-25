@@ -17,7 +17,8 @@ import static org.mockito.Mockito.doReturn;
 
 @QuarkusTest
 public class SensorEndpointTest {
-
+//    pour moi ces tests doivent dégager => ApplicationTest ...
+//comment es je fais dans mon formula interpreter ??? non ! real-estate-ads-tracker !!!
     @InjectMock
     AskForTemperatureUseCase askForTemperatureUseCase;
 
@@ -26,9 +27,9 @@ public class SensorEndpointTest {
 
     @Test
     public void should_take_temperature() {
-        final ZonedDateTime sensedAt = ZonedDateTime.now();
+        final ZonedDateTime takenAt = ZonedDateTime.now();
         doReturn(new Sensor(
-                new TakenAt(sensedAt),
+                new TakenAt(takenAt),
                 new TakenTemperature(new DegreeCelsius(22)),
                 SensorState.WARM))
                 .when(askForTemperatureUseCase).execute(any());
@@ -44,13 +45,13 @@ public class SensorEndpointTest {
 
     @Test
     public void should_retrieve_last_15_temperatures() {
-        final ZonedDateTime sensedAt = ZonedDateTime.now();
+        final ZonedDateTime takenAt = ZonedDateTime.now();
         doReturn(List.of(
                 new Sensor(
-                        new TakenAt(sensedAt),
+                        new TakenAt(takenAt),
                         new TakenTemperature(new DegreeCelsius(22)),
                         SensorState.WARM)))
-                .when(postgresSensorRepository).getLast15OrderedBySensedAtDesc();
+                .when(postgresSensorRepository).getLast15OrderedByTakenAtDesc();
 
         given()
                 .when()

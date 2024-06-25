@@ -12,13 +12,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class SensorTest {
 
     @Test
-    public void should_fail_fast_when_sensed_at_is_null() {
+    public void should_fail_fast_when_taken_at_is_null() {
         assertThatThrownBy(() -> new Sensor(null, new TakenTemperature(new DegreeCelsius(10)), new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    public void should_fail_fast_when_sensed_temperature_is_null() {
+    public void should_fail_fast_when_taken_temperature_is_null() {
         assertThatThrownBy(() -> new Sensor(new TakenAt(ZonedDateTime.now()), null, new Limits(new ColdLimit(new DegreeCelsius(22)), new WarmLimit(new DegreeCelsius(22)))))
                 .isInstanceOf(NullPointerException.class);
     }
@@ -34,7 +34,6 @@ public class SensorTest {
         assertThatThrownBy(() -> new Sensor(new TakenAt(ZonedDateTime.now()), new TakenTemperature(new DegreeCelsius(10)), (SensorState) null))
                 .isInstanceOf(NullPointerException.class);
     }
-
 
     @ParameterizedTest
     @CsvSource({
@@ -58,9 +57,9 @@ public class SensorTest {
             "38,WARM",
             "39,WARM",
             "40,HOT"})
-    public void should_return_expected_state(final Integer givenSensedTemperature, final SensorState expectedSensorState) {
+    public void should_return_expected_state(final Integer givenTakenTemperature, final SensorState expectedSensorState) {
         assertThat(new Sensor(new TakenAt(ZonedDateTime.now()),
-                new TakenTemperature(new DegreeCelsius(givenSensedTemperature)),
+                new TakenTemperature(new DegreeCelsius(givenTakenTemperature)),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))).sensorState()).isEqualTo(expectedSensorState);

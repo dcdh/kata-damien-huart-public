@@ -2,8 +2,8 @@ package com.harvest.katadamienhuart.domain;
 
 public interface LimitsRepository {
 
-    Limits getLimits();
+    Limits getLastLimits();
 
-    void store(Limits limits);
+    Limits store(Limits limits);
 
 }

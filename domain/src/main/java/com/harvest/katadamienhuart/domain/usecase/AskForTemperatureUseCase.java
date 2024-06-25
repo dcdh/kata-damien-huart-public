@@ -24,13 +24,13 @@ public class AskForTemperatureUseCase implements UseCase<AskForTemperatureComman
 
     @Override
     public Sensor execute(final AskForTemperatureCommand command) {
+        Objects.requireNonNull(command);
         final TakenTemperature takenTemperature = temperatureCaptor.takeTemperature();
-        final Limits limits = Optional.ofNullable(limitsRepository.getLimits())
+        final Limits limits = Optional.ofNullable(limitsRepository.getLastLimits())
                 .orElseGet(Limits::ofDefault);
         final TakenAt takenAt = takenAtProvider.now();
         final Sensor sensor = new Sensor(takenAt, takenTemperature, limits);
-        sensorRepository.save(sensor);
-        return sensor;
+        return sensorRepository.store(sensor);
     }
 
 }

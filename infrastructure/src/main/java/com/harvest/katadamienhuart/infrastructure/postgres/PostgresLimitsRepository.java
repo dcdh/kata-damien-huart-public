@@ -19,7 +19,7 @@ public class PostgresLimitsRepository implements LimitsRepository {
     }
 
     @Override
-    public Limits getLimits() {
+    public Limits getLastLimits() {
         try {
             return entityManager
                     .createQuery("SELECT l FROM LimitsEntity l ORDER BY id DESC", LimitsEntity.class)
@@ -32,7 +32,8 @@ public class PostgresLimitsRepository implements LimitsRepository {
 
     @Override
     @Transactional
-    public void store(final Limits limits) {
+    public Limits store(final Limits limits) {
         entityManager.persist(new LimitsEntity(limits));
+        return limits;
     }
 }

@@ -35,7 +35,7 @@ public class SensorEndpoint {
     @Path("/retrieveLast15Temperatures")
     @Produces(MediaType.APPLICATION_JSON)
     public List<SensorDTO> retrieveLast15Temperatures() {
-        return postgresSensorRepository.getLast15OrderedBySensedAtDesc()
+        return postgresSensorRepository.getLast15OrderedByTakenAtDesc()
                 .stream()
                 .map(SensorDTO::new).collect(Collectors.toList());
     }

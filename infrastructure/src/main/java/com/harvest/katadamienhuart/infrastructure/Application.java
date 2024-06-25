@@ -26,7 +26,7 @@ public class Application {
 
     @Produces
     @ApplicationScoped
-    public TakenAtProvider sensedAtProvider() {
+    public TakenAtProvider takenAtProvider() {
         return () -> {
             // I do not have any time context - choose UTC by default
             return new TakenAt(ZonedDateTime.now(ZoneOffset.UTC));

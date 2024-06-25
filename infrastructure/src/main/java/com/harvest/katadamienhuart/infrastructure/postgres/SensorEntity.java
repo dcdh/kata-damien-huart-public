@@ -10,10 +10,16 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "T_SENSOR")
+@SequenceGenerator(
+        name = "t_sensor_seq",
+        sequenceName = "t_sensor_seq",
+        initialValue = 1,
+        allocationSize = 1 // Disable sequence cache
+)
 public class SensorEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_sensor_seq")
     private Integer id;
 
     @NotNull

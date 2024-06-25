@@ -4,17 +4,23 @@ import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.WarmLimit;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 @Entity
 @Table(name = "T_LIMITS")
+@SequenceGenerator(
+        name = "t_limits_seq",
+        sequenceName = "t_limits_seq",
+        initialValue = 1,
+        allocationSize = 1 // Disable sequence cache
+)
 public class LimitsEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_limits_seq")
     private Integer id;
 
     @NotNull
@@ -23,7 +29,8 @@ public class LimitsEntity {
     @NotNull
     private Integer warmLimit;
 
-    public LimitsEntity() {}
+    public LimitsEntity() {
+    }
 
     public LimitsEntity(final Limits limits) {
         this.coldLimit = limits.coldLimit().limit().temperature();
