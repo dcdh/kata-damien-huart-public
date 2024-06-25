@@ -19,7 +19,7 @@ import java.util.stream.Stream;
         initialValue = 1,
         allocationSize = 1 // Disable sequence cache
 )
-public class SensorEntity extends PanacheEntityBase {
+public final class SensorEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_sensor_seq")
@@ -56,15 +56,15 @@ public class SensorEntity extends PanacheEntityBase {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SensorEntity)) return false;
-        final SensorEntity that = (SensorEntity) o;
-        return Objects.equals(takenAt, that.takenAt);
+        if (o == null || getClass() != o.getClass()) return false;
+        SensorEntity that = (SensorEntity) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(takenAt);
+        return Objects.hashCode(id);
     }
 }

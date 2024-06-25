@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
-            <artifactId>equalsverifier</artifactId>
+            <artifactId>equalsverifier-nodep</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

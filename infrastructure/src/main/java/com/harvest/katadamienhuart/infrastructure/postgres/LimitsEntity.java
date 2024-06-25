@@ -9,9 +9,7 @@ import io.quarkus.panache.common.Sort;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 @Table(name = "T_LIMITS")
@@ -21,7 +19,7 @@ import java.util.Optional;
         initialValue = 1,
         allocationSize = 1 // Disable sequence cache
 )
-public class LimitsEntity extends PanacheEntityBase {
+public final class LimitsEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_limits_seq")
@@ -52,15 +50,15 @@ public class LimitsEntity extends PanacheEntityBase {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LimitsEntity)) return false;
-        final LimitsEntity that = (LimitsEntity) o;
+        if (o == null || getClass() != o.getClass()) return false;
+        LimitsEntity that = (LimitsEntity) o;
         return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 }

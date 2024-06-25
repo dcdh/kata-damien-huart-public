@@ -24,13 +24,14 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>3.11.3</quarkus.platform.version>
     <surefire-plugin.version>3.2.3</surefire-plugin.version>
+    <equalsverifier.version>3.16.1</equalsverifier.version>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
-        <artifactId>equalsverifier</artifactId>
-        <version>3.6</version>
+        <artifactId>equalsverifier-nodep</artifactId>
+        <version>${equalsverifier.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
