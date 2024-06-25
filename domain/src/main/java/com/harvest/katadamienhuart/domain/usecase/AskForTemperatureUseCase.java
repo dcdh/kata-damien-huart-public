@@ -3,7 +3,6 @@ package com.harvest.katadamienhuart.domain.usecase;
 import com.harvest.katadamienhuart.domain.*;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public class AskForTemperatureUseCase implements UseCase<AskForTemperatureCommand, Sensor> {
 
@@ -26,7 +25,7 @@ public class AskForTemperatureUseCase implements UseCase<AskForTemperatureComman
     public Sensor execute(final AskForTemperatureCommand command) {
         Objects.requireNonNull(command);
         final TakenTemperature takenTemperature = temperatureCaptor.takeTemperature();
-        final Limits limits = Optional.ofNullable(limitsRepository.getLastLimits())
+        final Limits limits = limitsRepository.findLastLimits()
                 .orElseGet(Limits::ofDefault);
         final TakenAt takenAt = takenAtProvider.now();
         final Sensor sensor = new Sensor(takenAt, takenTemperature, limits);

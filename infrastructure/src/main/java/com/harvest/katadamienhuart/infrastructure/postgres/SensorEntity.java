@@ -1,12 +1,15 @@
 package com.harvest.katadamienhuart.infrastructure.postgres;
 
 import com.harvest.katadamienhuart.domain.*;
-
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.panache.common.Sort;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "T_SENSOR")
@@ -16,7 +19,7 @@ import java.util.Objects;
         initialValue = 1,
         allocationSize = 1 // Disable sequence cache
 )
-public class SensorEntity {
+public class SensorEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_sensor_seq")
@@ -32,7 +35,8 @@ public class SensorEntity {
     @NotNull
     public Integer takenTemperature;
 
-    public SensorEntity() {}
+    public SensorEntity() {
+    }
 
     public SensorEntity(final Sensor sensor) {
         this.takenAt = sensor.takenAt().at();
@@ -45,6 +49,10 @@ public class SensorEntity {
                 new TakenAt(takenAt.withZoneSameInstant(ZoneOffset.UTC)),
                 new TakenTemperature(new DegreeCelsius(takenTemperature)),
                 sensorState);
+    }
+
+    public static Stream<SensorEntity> getLast15OrderByTakenAtDesc() {
+        return findAll(Sort.descending("takenAt")).page(0, 15).stream();
     }
 
     @Override

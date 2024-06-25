@@ -3,34 +3,23 @@ package com.harvest.katadamienhuart.infrastructure.postgres;
 import com.harvest.katadamienhuart.domain.Sensor;
 import com.harvest.katadamienhuart.domain.SensorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class PostgresSensorRepository implements SensorRepository {
 
-    private final EntityManager entityManager;
-
-    public PostgresSensorRepository(final EntityManager entityManager) {
-        this.entityManager = Objects.requireNonNull(entityManager);
-    }
-
     @Override
     @Transactional
     public Sensor store(final Sensor sensor) {
-        entityManager.persist(new SensorEntity(sensor));
+        SensorEntity.persist(new SensorEntity(sensor));
         return sensor;
     }
 
     public List<Sensor> getLast15OrderedByTakenAtDesc() {
-        return entityManager.createQuery("SELECT s FROM SensorEntity s ORDER BY takenAt DESC", SensorEntity.class)
-                .setMaxResults(15)
-                .getResultList()
-                .stream()
+        return SensorEntity.getLast15OrderByTakenAtDesc()
                 .map(SensorEntity::toSensor)
                 .collect(Collectors.toList());
     }

@@ -1,8 +1,10 @@
 package com.harvest.katadamienhuart.domain;
 
+import java.util.Optional;
+
 public interface LimitsRepository {
 
-    Limits getLastLimits();
+    Optional<Limits> findLastLimits();
 
     Limits store(Limits limits);
 

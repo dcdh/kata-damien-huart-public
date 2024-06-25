@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -24,8 +25,8 @@ public class PostgresLimitsRepositoryTest extends RepositoryTest {
     PostgresLimitsRepository postgresLimitsRepository;
 
     @Test
-    public void should_return_null_when_limits_have_not_been_defined() {
-        assertThat(postgresLimitsRepository.getLastLimits()).isNull();
+    public void should_return_optional_empty_when_limits_have_not_been_defined() {
+        assertThat(postgresLimitsRepository.findLastLimits()).isEmpty();
     }
 
     @Test
@@ -70,12 +71,15 @@ public class PostgresLimitsRepositoryTest extends RepositoryTest {
         });
 
         // When
-        final Limits limits = postgresLimitsRepository.getLastLimits();
+        final Optional<Limits> limits = postgresLimitsRepository.findLastLimits();
 
         // Then
-        assertThat(limits).isEqualTo(new Limits(
-                new ColdLimit(new DegreeCelsius(22)),
-                new WarmLimit(new DegreeCelsius(42))));
+        assertAll(
+                () -> assertThat(limits).isPresent(),
+                () -> assertThat(limits).hasValue(new Limits(
+                        new ColdLimit(new DegreeCelsius(22)),
+                        new WarmLimit(new DegreeCelsius(42))))
+        );
     }
 
 }

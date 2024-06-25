@@ -4,10 +4,14 @@ import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.WarmLimit;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.panache.common.Sort;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "T_LIMITS")
@@ -17,7 +21,7 @@ import java.util.Objects;
         initialValue = 1,
         allocationSize = 1 // Disable sequence cache
 )
-public class LimitsEntity {
+public class LimitsEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_limits_seq")
@@ -41,6 +45,10 @@ public class LimitsEntity {
         return new Limits(new ColdLimit(
                 new DegreeCelsius(coldLimit)),
                 new WarmLimit(new DegreeCelsius(warmLimit)));
+    }
+
+    public static LimitsEntity findFirstOrderByIdDesc() {
+        return findAll(Sort.descending("id")).firstResult();
     }
 
     @Override
