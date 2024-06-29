@@ -7,16 +7,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class RedefineLimitsCommandTest {
+class RedefineLimitsCommandTest {
 
     @Test
-    public void should_fail_fast_when_new_cold_limit_is_null() {
+    void should_fail_fast_when_new_cold_limit_is_null() {
         assertThatThrownBy(() -> new RedefineLimitsCommand(null, new WarmLimit(new DegreeCelsius(40))))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    public void should_fail_fast_when_new_warm_limit_is_null() {
+    void should_fail_fast_when_new_warm_limit_is_null() {
         assertThatThrownBy(() -> new RedefineLimitsCommand(new ColdLimit(new DegreeCelsius(22)), null))
                 .isInstanceOf(NullPointerException.class);
     }

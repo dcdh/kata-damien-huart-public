@@ -39,7 +39,7 @@ public final class LimitsEntity extends PanacheEntityBase {
         this.warmLimit = limits.warmLimit().limit().temperature();
     }
 
-    public Limits toDomain() {
+    public Limits toLimits() {
         return new Limits(new ColdLimit(
                 new DegreeCelsius(coldLimit)),
                 new WarmLimit(new DegreeCelsius(warmLimit)));

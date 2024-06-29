@@ -4,32 +4,33 @@ import com.harvest.katadamienhuart.domain.*;
 
 import java.util.Objects;
 
-public class AskForTemperatureUseCase implements UseCase<AskForTemperatureCommand, Sensor> {
+public final class AskForTemperatureUseCase implements UseCase<AskForTemperatureCommand, Sensor> {
 
     private final TemperatureCaptor temperatureCaptor;
     private final TakenAtProvider takenAtProvider;
-    private final SensorRepository sensorRepository;
+    private final TakenTemperatureRepository takenTemperatureRepository;
     private final LimitsRepository limitsRepository;
 
     public AskForTemperatureUseCase(final TemperatureCaptor temperatureCaptor,
                                     final TakenAtProvider takenAtProvider,
-                                    final SensorRepository sensorRepository,
+                                    final TakenTemperatureRepository takenTemperatureRepository,
                                     final LimitsRepository limitsRepository) {
         this.temperatureCaptor = Objects.requireNonNull(temperatureCaptor);
         this.takenAtProvider = Objects.requireNonNull(takenAtProvider);
-        this.sensorRepository = Objects.requireNonNull(sensorRepository);
+        this.takenTemperatureRepository = Objects.requireNonNull(takenTemperatureRepository);
         this.limitsRepository = Objects.requireNonNull(limitsRepository);
     }
 
     @Override
     public Sensor execute(final AskForTemperatureCommand command) {
         Objects.requireNonNull(command);
-        final TakenTemperature takenTemperature = temperatureCaptor.takeTemperature();
+        final Temperature temperature = temperatureCaptor.takeTemperature();
         final Limits limits = limitsRepository.findLastLimits()
                 .orElseGet(Limits::ofDefault);
         final TakenAt takenAt = takenAtProvider.now();
-        final Sensor sensor = new Sensor(takenAt, takenTemperature, limits);
-        return sensorRepository.store(sensor);
+        final TakenTemperature takenTemperature = new TakenTemperature(temperature, takenAt);
+        takenTemperatureRepository.store(takenTemperature);
+        return new Sensor(takenTemperature, limits);
     }
 
 }

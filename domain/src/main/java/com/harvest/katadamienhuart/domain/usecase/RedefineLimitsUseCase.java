@@ -6,7 +6,7 @@ import com.harvest.katadamienhuart.domain.UseCase;
 
 import java.util.Objects;
 
-public class RedefineLimitsUseCase implements UseCase<RedefineLimitsCommand, Limits> {
+public final class RedefineLimitsUseCase implements UseCase<RedefineLimitsCommand, Limits> {
 
     private final LimitsRepository limitsRepository;
 

@@ -2,9 +2,11 @@ package com.harvest.katadamienhuart.domain;
 
 import java.util.Objects;
 
-public record TakenTemperature(DegreeCelsius temperature) {
+public record TakenTemperature(Temperature temperature,
+                               TakenAt takenAt) implements Comparable<TakenTemperature> {
     public TakenTemperature {
         Objects.requireNonNull(temperature);
+        Objects.requireNonNull(takenAt);
     }
 
     public boolean isBeforeThan(final DegreeCelsius limit) {
@@ -13,5 +15,10 @@ public record TakenTemperature(DegreeCelsius temperature) {
 
     public boolean isGreaterThanOrEquals(final DegreeCelsius limit) {
         return temperature.isGreaterThanOrEquals(limit);
+    }
+
+    @Override
+    public int compareTo(final TakenTemperature other) {
+        return this.takenAt.compareTo(other.takenAt);
     }
 }

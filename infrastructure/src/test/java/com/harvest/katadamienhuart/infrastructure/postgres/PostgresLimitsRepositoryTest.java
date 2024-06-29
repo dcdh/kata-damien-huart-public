@@ -4,6 +4,7 @@ import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.WarmLimit;
+import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -19,18 +20,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @QuarkusTest
-public class PostgresLimitsRepositoryTest extends RepositoryTest {
+class PostgresLimitsRepositoryTest extends AbstractInfrastructureTest {
 
     @Inject
     PostgresLimitsRepository postgresLimitsRepository;
 
     @Test
-    public void should_return_optional_empty_when_limits_have_not_been_defined() {
+    void should_return_optional_empty_when_limits_have_not_been_defined() {
         assertThat(postgresLimitsRepository.findLastLimits()).isEmpty();
     }
 
     @Test
-    public void should_store_limits() {
+    void should_store_limits() {
         // Given
         final Limits givenLimits = new Limits(
                 new ColdLimit(new DegreeCelsius(20)),
@@ -59,7 +60,7 @@ public class PostgresLimitsRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    public void should_get_last_limits() {
+    void should_get_last_limits() {
         // Given
         QuarkusTransaction.requiringNew().run(() -> {
             entityManager.persist(new LimitsEntity(new Limits(

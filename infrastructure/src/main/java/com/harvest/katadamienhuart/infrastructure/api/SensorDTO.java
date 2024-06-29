@@ -15,8 +15,8 @@ public record SensorDTO(SensorState sensorState, Integer takenTemperature, Zoned
 
     public SensorDTO(final Sensor sensor) {
         this(sensor.sensorState(),
-                sensor.takenTemperature().temperature().temperature(),
-                sensor.takenAt().at());
+                sensor.takenTemperature().temperature().degreeCelsius().temperature(),
+                sensor.takenTemperature().takenAt().at());
     }
 
 }

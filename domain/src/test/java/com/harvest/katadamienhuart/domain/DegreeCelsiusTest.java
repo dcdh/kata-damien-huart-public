@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class DegreeCelsiusTest {
+class DegreeCelsiusTest {
 
     @Test
-    public void should_fail_fast_when_temperature_is_null() {
+    void should_fail_fast_when_temperature_is_null() {
         assertThatThrownBy(() -> new DegreeCelsius(null))
                 .isInstanceOf(NullPointerException.class);
     }
@@ -18,17 +18,17 @@ public class DegreeCelsiusTest {
     class IsGreaterThanOrEquals {
 
         @Test
-        public void should_be_greater() {
+        void should_be_greater() {
             assertThat(new DegreeCelsius(10).isGreaterThanOrEquals(new DegreeCelsius(9))).isTrue();
         }
 
         @Test
-        public void should_not_be_greater() {
+        void should_not_be_greater() {
             assertThat(new DegreeCelsius(9).isGreaterThanOrEquals(new DegreeCelsius(10))).isFalse();
         }
 
         @Test
-        public void should_be_equals() {
+        void should_be_equals() {
             assertThat(new DegreeCelsius(9).isGreaterThanOrEquals(new DegreeCelsius(9))).isTrue();
         }
 
@@ -38,17 +38,17 @@ public class DegreeCelsiusTest {
     class IsBeforeThan {
 
         @Test
-        public void should_be_before() {
+        void should_be_before() {
             assertThat(new DegreeCelsius(9).isBeforeThan(new DegreeCelsius(10))).isTrue();
         }
 
         @Test
-        public void should_not_be_before() {
+        void should_not_be_before() {
             assertThat(new DegreeCelsius(10).isBeforeThan(new DegreeCelsius(9))).isFalse();
         }
 
         @Test
-        public void should_not_be_before_when_equals() {
+        void should_not_be_before_when_equals() {
             assertThat(new DegreeCelsius(10).isBeforeThan(new DegreeCelsius(10))).isFalse();
         }
     }
@@ -57,17 +57,17 @@ public class DegreeCelsiusTest {
     class IsPositive {
 
         @Test
-        public void should_be_positive() {
+        void should_be_positive() {
             assertThat(new DegreeCelsius(10).isPositive()).isTrue();
         }
 
         @Test
-        public void should_be_negative() {
+        void should_be_negative() {
             assertThat(new DegreeCelsius(-10).isPositive()).isFalse();
         }
 
         @Test
-        public void should_not_be_positive_nor_negative() {
+        void should_not_be_positive_nor_negative() {
             assertThat(new DegreeCelsius(0).isPositive()).isFalse();
         }
 

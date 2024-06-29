@@ -17,6 +17,14 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.harvest.kata-damien-huart</groupId>
+            <artifactId>domain</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>

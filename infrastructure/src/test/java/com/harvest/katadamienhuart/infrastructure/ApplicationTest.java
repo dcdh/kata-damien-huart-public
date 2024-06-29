@@ -11,11 +11,14 @@ import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ApplicationTest {
+// Should be done in api package
+// Should be removed
+@Deprecated
+class ApplicationTest {
 
     @Test
     @Order(1)
-    public void should_get_temperature() {
+    void should_get_temperature() {
         given()
                 .when()
                 .get("/sensor/askForTemperature")
@@ -28,7 +31,7 @@ public class ApplicationTest {
 
     @Test
     @Order(2)
-    public void should_redefine_limits() {
+    void should_redefine_limits() {
         given()
                 .param("newColdLimit", "20")
                 .param("newWarmLimit", "42")
@@ -41,7 +44,7 @@ public class ApplicationTest {
 
     @Test
     @Order(3)
-    public void should_get_last_15_temperatures() {
+    void should_get_last_15_temperatures() {
         given()
                 .when()
                 .get("/sensor/retrieveLast15Temperatures")

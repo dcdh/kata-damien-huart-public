@@ -1,6 +1,7 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
@@ -19,6 +20,7 @@ public class RedefineLimitsUseCaseTest {
     @Spy
     DefaultLimitsRepository limitsRepository;
 
+    // Need to do it this way because we return the limits from the repository after storing
     public static class DefaultLimitsRepository implements LimitsRepository {
 
         @Override
@@ -32,15 +34,19 @@ public class RedefineLimitsUseCaseTest {
         }
     }
 
+    private RedefineLimitsUseCase redefineLimitsUseCase;
+
+    @BeforeEach
+    void setup() {
+        this.redefineLimitsUseCase = new RedefineLimitsUseCase(limitsRepository);
+    }
+
     @Test
-    public void should_redefine_limits() {
+    void should_redefine_limits() {
         // Given
-        final RedefineLimitsUseCase redefineLimitsUseCase = new RedefineLimitsUseCase(limitsRepository);
 
         // When
-        final Limits limits = redefineLimitsUseCase.execute(new RedefineLimitsCommand(
-                new ColdLimit(new DegreeCelsius(10)),
-                new WarmLimit(new DegreeCelsius(45))));
+        final Limits limits = redefineLimitsUseCase.execute(TestProvider.GIVEN_REDEFINE_LIMITS_COMMAND);
 
         // Then
         final Limits expectedLimits = new Limits(new ColdLimit(new DegreeCelsius(10)), new WarmLimit(new DegreeCelsius(45)));

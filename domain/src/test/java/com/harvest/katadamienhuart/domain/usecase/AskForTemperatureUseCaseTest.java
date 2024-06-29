@@ -5,9 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AskForTemperatureUseCaseTest {
+class AskForTemperatureUseCaseTest {
 
     @Mock
     TemperatureCaptor temperatureCaptor;
@@ -24,47 +24,33 @@ public class AskForTemperatureUseCaseTest {
     @Mock
     TakenAtProvider takenAtProvider;
 
-    @Spy
-    DefaultSensorRepository sensorRepository;
-
-    public static class DefaultSensorRepository implements SensorRepository {
-
-        @Override
-        public Sensor store(final Sensor sensor) {
-            return sensor;
-        }
-    }
+    @Mock
+    TakenTemperatureRepository takenTemperatureRepository;
 
     @Mock
     LimitsRepository limitsRepository;
 
-    @Mock
-    AskForTemperatureUseCase askForTemperatureUseCase;
+    private AskForTemperatureUseCase askForTemperatureUseCase;
 
     @BeforeEach
-    public void setup() {
-        askForTemperatureUseCase = new AskForTemperatureUseCase(temperatureCaptor, takenAtProvider, sensorRepository, limitsRepository);
+    void setup() {
+        askForTemperatureUseCase = new AskForTemperatureUseCase(temperatureCaptor, takenAtProvider, takenTemperatureRepository, limitsRepository);
     }
 
     @Test
-    public void should_take_temperature() {
+    void should_ask_for_temperature() {
         // Given
-        doReturn(new TakenTemperature(new DegreeCelsius(30))).when(temperatureCaptor).takeTemperature();
-        final ZonedDateTime takenAt = ZonedDateTime.now();
-        doReturn(new TakenAt(takenAt)).when(takenAtProvider).now();
-        doReturn(Optional.of(
-                new Limits(
-                        new ColdLimit(new DegreeCelsius(22)),
-                        new WarmLimit(new DegreeCelsius(40))
-                ))).when(limitsRepository).findLastLimits();
+        doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
+        doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
+        doReturn(Optional.of(TestProvider.GIVEN_LIMITS)).when(limitsRepository).findLastLimits();
 
         // When
         final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureCommand());
 
         // Then
         final Sensor expectedSensor = new Sensor(
-                new TakenAt(takenAt),
-                new TakenTemperature(new DegreeCelsius(30)),
+                new TakenTemperature(new Temperature(new DegreeCelsius(30)),
+                        new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC))),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))
@@ -72,18 +58,19 @@ public class AskForTemperatureUseCaseTest {
         assertAll(
                 () -> assertThat(sensor).isEqualTo(expectedSensor),
                 () -> verify(temperatureCaptor, times(1)).takeTemperature(),
-                () -> verify(sensorRepository, times(1)).store(sensor),
+                () -> verify(takenTemperatureRepository, times(1))
+                        .store(new TakenTemperature(new Temperature(new DegreeCelsius(30)),
+                                new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC)))),
                 () -> verify(takenAtProvider, times(1)).now(),
                 () -> verify(limitsRepository, times(1)).findLastLimits()
         );
     }
 
     @Test
-    public void should_use_default_limits_when_not_defined() {
+    void should_use_default_limits_when_not_defined() {
         // Given
-        doReturn(new TakenTemperature(new DegreeCelsius(30))).when(temperatureCaptor).takeTemperature();
-        final ZonedDateTime takenAt = ZonedDateTime.now();
-        doReturn(new TakenAt(takenAt)).when(takenAtProvider).now();
+        doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
+        doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
         doReturn(Optional.empty()).when(limitsRepository).findLastLimits();
 
         // When
@@ -91,8 +78,8 @@ public class AskForTemperatureUseCaseTest {
 
         // Then
         final Sensor expectedSensor = new Sensor(
-                new TakenAt(takenAt),
-                new TakenTemperature(new DegreeCelsius(30)),
+                new TakenTemperature(new Temperature(new DegreeCelsius(30)),
+                        new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC))),
                 new Limits(
                         new ColdLimit(new DegreeCelsius(22)),
                         new WarmLimit(new DegreeCelsius(40)))
@@ -100,7 +87,9 @@ public class AskForTemperatureUseCaseTest {
         assertAll(
                 () -> assertThat(sensor).isEqualTo(expectedSensor),
                 () -> verify(temperatureCaptor, times(1)).takeTemperature(),
-                () -> verify(sensorRepository, times(1)).store(sensor),
+                () -> verify(takenTemperatureRepository, times(1))
+                        .store(new TakenTemperature(new Temperature(new DegreeCelsius(30)),
+                                new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC)))),
                 () -> verify(takenAtProvider, times(1)).now(),
                 () -> verify(limitsRepository, times(1)).findLastLimits()
         );

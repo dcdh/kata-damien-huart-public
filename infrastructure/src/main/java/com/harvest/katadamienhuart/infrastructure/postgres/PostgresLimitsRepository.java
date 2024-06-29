@@ -13,7 +13,7 @@ public class PostgresLimitsRepository implements LimitsRepository {
     @Override
     public Optional<Limits> findLastLimits() {
         return Optional.ofNullable(LimitsEntity.findFirstOrderByIdDesc())
-                .map(LimitsEntity::toDomain);
+                .map(LimitsEntity::toLimits);
     }
 
     @Override

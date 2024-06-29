@@ -22,12 +22,14 @@ public class Junit5TestClassOrder implements ClassOrderer {
     }
 
     private static int getOrder(final ClassDescriptor classDescriptor) {
-        if (classDescriptor.getTestClass().equals(ApplicationTest.class)) {
-            return 3;
+        if (classDescriptor.getTestClass().getPackageName().contains("postgres")) {
+            return 1;
         } else if (classDescriptor.getTestClass().getPackageName().contains("usecase")) {
             return 2;
+        } else if (classDescriptor.getTestClass().getPackageName().contains("api")) {
+            return 3;
         } else {
-            return 1;
+            return 4;
         }
     }
 
