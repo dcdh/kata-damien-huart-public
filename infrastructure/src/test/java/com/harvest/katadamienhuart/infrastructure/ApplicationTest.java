@@ -20,6 +20,7 @@ class ApplicationTest {
     @Order(1)
     void should_get_temperature() {
         given()
+                .accept("application/vnd.sensor-v1+json")
                 .when()
                 .get("/sensor/askForTemperature")
                 .then()
@@ -46,6 +47,7 @@ class ApplicationTest {
     @Order(3)
     void should_get_last_15_temperatures() {
         given()
+                .accept("application/vnd.sensor-history-v1+json")
                 .when()
                 .get("/sensor/retrieveLast15Temperatures")
                 .then()

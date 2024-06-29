@@ -38,7 +38,7 @@ class AskForTemperatureUseCaseTest {
     }
 
     @Test
-    void should_ask_for_temperature() {
+    void should_ask_for_temperature() throws AskForTemperatureException {
         // Given
         doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
         doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
@@ -67,7 +67,7 @@ class AskForTemperatureUseCaseTest {
     }
 
     @Test
-    void should_use_default_limits_when_not_defined() {
+    void should_use_default_limits_when_not_defined() throws AskForTemperatureException {
         // Given
         doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
         doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();

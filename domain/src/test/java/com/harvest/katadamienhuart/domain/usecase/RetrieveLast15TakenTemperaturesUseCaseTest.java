@@ -36,7 +36,7 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
     }
 
     @Test
-    void should_return_last_15_taken_temperature() {
+    void should_return_last_15_taken_temperature() throws RetrieveLast15TakenTemperaturesException {
         // Given
         doReturn(Optional.of(TestProvider.GIVEN_LIMITS)).when(limitsRepository).findLastLimits();
         doReturn(TestProvider.GIVEN_TAKEN_TEMPERATURES).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
@@ -62,7 +62,7 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
     }
 
     @Test
-    void should_use_default_limits_when_not_defined() {
+    void should_use_default_limits_when_not_defined() throws RetrieveLast15TakenTemperaturesException {
         // Given
         doReturn(TestProvider.GIVEN_TAKEN_TEMPERATURES).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 

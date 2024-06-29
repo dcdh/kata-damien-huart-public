@@ -30,11 +30,13 @@ class AskForTemperatureEndpointTest extends AbstractInfrastructureTest {
 
         // When & Then
         given()
+                .accept("application/vnd.sensor-v1+json")
                 .when()
                 .get("/sensor/askForTemperature")
                 .then()
                 .log().all()
                 .statusCode(200)
+                .contentType("application/vnd.sensor-v1+json")
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("expected/temperature_asked.json"))
                 .body("sensorState", is("WARM"))
                 .body("takenTemperature", is(30))

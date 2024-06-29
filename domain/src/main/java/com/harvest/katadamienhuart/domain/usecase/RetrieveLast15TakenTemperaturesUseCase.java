@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class RetrieveLast15TakenTemperaturesUseCase implements UseCase<RetrieveLast15TakenTemperaturesRequest, List<SensorHistory>> {
+public final class RetrieveLast15TakenTemperaturesUseCase implements UseCase<RetrieveLast15TakenTemperaturesRequest, List<SensorHistory>, RetrieveLast15TakenTemperaturesException> {
 
     private static final Function<List<TakenTemperature>, Void> SORTED_DESC_FAIL_FAST = new IsSortedDesc<TakenTemperature>()
             .andThen(new FailOnFalse("Taken temperature history is not sorted descending"));
@@ -22,7 +22,7 @@ public final class RetrieveLast15TakenTemperaturesUseCase implements UseCase<Ret
     }
 
     @Override
-    public List<SensorHistory> execute(final RetrieveLast15TakenTemperaturesRequest request) {
+    public List<SensorHistory> execute(final RetrieveLast15TakenTemperaturesRequest request) throws RetrieveLast15TakenTemperaturesException {
         final Limits lastLimits = limitsRepository.findLastLimits().orElseGet(Limits::ofDefault);
         final List<TakenTemperature> last15OrderedByTakenAtDesc = takenTemperatureRepository.findLast15OrderedByTakenAtDesc();
         Validate.validState(last15OrderedByTakenAtDesc.size() <= 15, "Max 15 taken temperature expected");

@@ -42,7 +42,7 @@ public class RedefineLimitsUseCaseTest {
     }
 
     @Test
-    void should_redefine_limits() {
+    void should_redefine_limits() throws RedefineLimitsException {
         // Given
 
         // When

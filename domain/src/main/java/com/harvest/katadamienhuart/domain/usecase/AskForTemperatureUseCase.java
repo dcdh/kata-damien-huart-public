@@ -4,7 +4,7 @@ import com.harvest.katadamienhuart.domain.*;
 
 import java.util.Objects;
 
-public final class AskForTemperatureUseCase implements UseCase<AskForTemperatureRequest, Sensor> {
+public final class AskForTemperatureUseCase implements UseCase<AskForTemperatureRequest, Sensor, AskForTemperatureException> {
 
     private final TemperatureCaptor temperatureCaptor;
     private final TakenAtProvider takenAtProvider;
@@ -22,7 +22,7 @@ public final class AskForTemperatureUseCase implements UseCase<AskForTemperature
     }
 
     @Override
-    public Sensor execute(final AskForTemperatureRequest request) {
+    public Sensor execute(final AskForTemperatureRequest request) throws AskForTemperatureException {
         Objects.requireNonNull(request);
         final Temperature temperature = temperatureCaptor.takeTemperature();
         final Limits limits = limitsRepository.findLastLimits()

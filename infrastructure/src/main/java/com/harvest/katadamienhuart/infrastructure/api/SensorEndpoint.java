@@ -1,13 +1,15 @@
 package com.harvest.katadamienhuart.infrastructure.api;
 
-import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureRequest;
-import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
-import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesRequest;
-import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesUseCase;
+import com.harvest.katadamienhuart.domain.usecase.*;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,15 +28,71 @@ public class SensorEndpoint {
 
     @GET
     @Path("/askForTemperature")
-    @Produces(MediaType.APPLICATION_JSON)
-    public SensorDTO askForTemperature() {
+    @Produces("application/vnd.sensor-v1+json")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            name = "success",
+                            responseCode = "200",
+                            content = @Content(
+                                    schema = @Schema(
+                                            type = SchemaType.OBJECT,
+                                            implementation = SensorDTO.class
+                                    ),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "Sensor following temperature taken",
+                                                    //language=JSON
+                                                    value = """
+                                                            {
+                                                              "sensorState": "WARM",
+                                                              "takenTemperature": 22,
+                                                              "takenAt": "2021-11-22T23:39:57.144382Z"
+                                                            }
+                                                            """
+                                            )
+                                    }
+                            )
+                    )
+            }
+    )
+    public SensorDTO askForTemperature() throws AskForTemperatureException {
         return new SensorDTO(askForTemperatureUseCase.execute(new AskForTemperatureRequest()));
     }
 
     @GET
     @Path("/retrieveLast15Temperatures")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<SensorHistoryDTO> retrieveLast15Temperatures() {
+    @Produces("application/vnd.sensor-history-v1+json")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            name = "success",
+                            responseCode = "200",
+                            content = @Content(
+                                    schema = @Schema(
+                                            type = SchemaType.OBJECT,
+                                            implementation = SensorDTO.class
+                                    ),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "History of last 15 temperatures taken for sensor",
+                                                    //language=JSON
+                                                    value = """
+                                                            [
+                                                              {
+                                                                "sensorState": "WARM",
+                                                                "takenTemperature": 22,
+                                                                "takenAt": "2021-11-22T23:39:57.144382Z"
+                                                              }
+                                                            ]
+                                                            """
+                                            )
+                                    }
+                            )
+                    )
+            }
+    )
+    public List<SensorHistoryDTO> retrieveLast15Temperatures() throws RetrieveLast15TakenTemperaturesException {
         return retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest())
                 .stream()
                 .map(SensorHistoryDTO::new)

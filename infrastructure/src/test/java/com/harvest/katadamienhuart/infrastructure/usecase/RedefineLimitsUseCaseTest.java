@@ -1,6 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.usecase;
 
 import com.harvest.katadamienhuart.domain.Limits;
+import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsException;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
 import com.harvest.katadamienhuart.domain.usecase.TestProvider;
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
@@ -22,7 +23,7 @@ class RedefineLimitsUseCaseTest extends AbstractInfrastructureTest {
     RedefineLimitsUseCase redefineLimitsUseCase;
 
     @Test
-    void should_redefine_limits() {
+    void should_redefine_limits() throws RedefineLimitsException {
         // Given
 
         // When

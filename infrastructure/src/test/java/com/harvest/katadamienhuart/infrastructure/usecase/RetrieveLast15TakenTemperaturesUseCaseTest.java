@@ -1,6 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.usecase;
 
 import com.harvest.katadamienhuart.domain.SensorHistory;
+import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesException;
 import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesRequest;
 import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesUseCase;
 import com.harvest.katadamienhuart.domain.usecase.TestProvider;
@@ -23,7 +24,7 @@ class RetrieveLast15TakenTemperaturesUseCaseTest extends AbstractInfrastructureT
     RetrieveLast15TakenTemperaturesUseCase retrieveLast15TakenTemperaturesUseCase;
 
     @Test
-    void should_return_last_15_taken_temperature() {
+    void should_return_last_15_taken_temperature() throws RetrieveLast15TakenTemperaturesException {
         // Given
         QuarkusTransaction.requiringNew().run(() -> {
             entityManager.persist(new LimitsEntity(TestProvider.GIVEN_LIMITS));

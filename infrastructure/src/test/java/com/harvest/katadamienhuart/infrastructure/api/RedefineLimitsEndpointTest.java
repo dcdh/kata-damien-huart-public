@@ -32,6 +32,7 @@ class RedefineLimitsEndpointTest extends AbstractInfrastructureTest {
                 .then()
                 .log().all()
                 .statusCode(400)
+                .contentType("application/vnd.redefine-limit-error-v1+txt")
                 .body(equalTo("-20°C is invalid. ColdLimit must be a positive temperature."));
     }
 
@@ -45,6 +46,7 @@ class RedefineLimitsEndpointTest extends AbstractInfrastructureTest {
                 .then()
                 .log().all()
                 .statusCode(400)
+                .contentType("application/vnd.redefine-limit-error-v1+txt")
                 .body(equalTo("-42°C is invalid. WarmLimit must be a positive temperature."));
     }
 
@@ -58,6 +60,7 @@ class RedefineLimitsEndpointTest extends AbstractInfrastructureTest {
                 .then()
                 .log().all()
                 .statusCode(400)
+                .contentType("application/vnd.redefine-limit-error-v1+txt")
                 .body(equalTo("Warm limit (20°C) must be superior to cold limit (22°C)."));
     }
 }

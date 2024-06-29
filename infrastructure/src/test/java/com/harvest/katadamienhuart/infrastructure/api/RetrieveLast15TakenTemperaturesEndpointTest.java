@@ -25,11 +25,13 @@ class RetrieveLast15TakenTemperaturesEndpointTest extends AbstractInfrastructure
         });
 
         given()
+                .accept("application/vnd.sensor-history-v1+json")
                 .when()
                 .get("/sensor/retrieveLast15Temperatures")
                 .then()
                 .log().all()
                 .statusCode(200)
+                .contentType("application/vnd.sensor-history-v1+json")
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("expected/temperatures_history.json"))
                 .body("size()", is(2))
                 .body("[0].sensorState", is("COLD"))
