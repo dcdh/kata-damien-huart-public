@@ -11,8 +11,8 @@ services:
       - POSTGRES_USER=username
       - POSTGRES_PASSWORD=password
 
-  sensor-native-service:
-    image: com.harvest.katadamienhuart/sensor-native-service
+  sensor-jvm-service:
+    image: com.harvest.katadamienhuart/sensor-service:1.0-SNAPSHOT
     ports:
       - 8080:8080
     environment:
