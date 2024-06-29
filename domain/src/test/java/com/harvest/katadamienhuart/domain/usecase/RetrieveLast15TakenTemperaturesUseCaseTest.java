@@ -42,7 +42,7 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
         doReturn(TestProvider.GIVEN_TAKEN_TEMPERATURES).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When
-        final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesCommand());
+        final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest());
 
         // Then
         assertAll(
@@ -67,7 +67,7 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
         doReturn(TestProvider.GIVEN_TAKEN_TEMPERATURES).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When
-        final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesCommand());
+        final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest());
 
         // Then
         assertAll(
@@ -100,7 +100,7 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
         doReturn(givenTakenTemperatures).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When & Then
-        assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesCommand()))
+        assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest()))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Max 15 taken temperature expected");
     }
@@ -118,7 +118,7 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
         doReturn(givenTakenTemperatures).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When & Then
-        assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesCommand()))
+        assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest()))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Taken temperature history is not sorted descending");
     }

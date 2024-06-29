@@ -45,7 +45,7 @@ class AskForTemperatureUseCaseTest {
         doReturn(Optional.of(TestProvider.GIVEN_LIMITS)).when(limitsRepository).findLastLimits();
 
         // When
-        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureCommand());
+        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureRequest());
 
         // Then
         final Sensor expectedSensor = new Sensor(
@@ -74,7 +74,7 @@ class AskForTemperatureUseCaseTest {
         doReturn(Optional.empty()).when(limitsRepository).findLastLimits();
 
         // When
-        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureCommand());
+        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureRequest());
 
         // Then
         final Sensor expectedSensor = new Sensor(

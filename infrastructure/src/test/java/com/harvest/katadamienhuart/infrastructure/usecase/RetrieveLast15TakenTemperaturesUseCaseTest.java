@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.usecase;
 
 import com.harvest.katadamienhuart.domain.SensorHistory;
-import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesCommand;
+import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesRequest;
 import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesUseCase;
 import com.harvest.katadamienhuart.domain.usecase.TestProvider;
 import com.harvest.katadamienhuart.infrastructure.postgres.LimitsEntity;
@@ -32,7 +32,7 @@ class RetrieveLast15TakenTemperaturesUseCaseTest extends AbstractInfrastructureT
         });
 
         // When
-        final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesCommand());
+        final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest());
 
         // Then
         assertThat(sensorHistories).hasSize(2);

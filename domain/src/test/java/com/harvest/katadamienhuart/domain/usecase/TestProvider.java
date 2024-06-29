@@ -18,7 +18,7 @@ public class TestProvider {
             new WarmLimit(new DegreeCelsius(40))
     );
 
-    public static RedefineLimitsCommand GIVEN_REDEFINE_LIMITS_COMMAND = new RedefineLimitsCommand(
+    public static RedefineLimitsRequest GIVEN_REDEFINE_LIMITS_REQUEST = new RedefineLimitsRequest(
             new ColdLimit(new DegreeCelsius(10)),
             new WarmLimit(new DegreeCelsius(45)));
 

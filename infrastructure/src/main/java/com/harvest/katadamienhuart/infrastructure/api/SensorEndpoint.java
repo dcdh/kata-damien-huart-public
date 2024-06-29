@@ -1,8 +1,8 @@
 package com.harvest.katadamienhuart.infrastructure.api;
 
-import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureCommand;
+import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureRequest;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
-import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesCommand;
+import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesRequest;
 import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesUseCase;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -28,14 +28,14 @@ public class SensorEndpoint {
     @Path("/askForTemperature")
     @Produces(MediaType.APPLICATION_JSON)
     public SensorDTO askForTemperature() {
-        return new SensorDTO(askForTemperatureUseCase.execute(new AskForTemperatureCommand()));
+        return new SensorDTO(askForTemperatureUseCase.execute(new AskForTemperatureRequest()));
     }
 
     @GET
     @Path("/retrieveLast15Temperatures")
     @Produces(MediaType.APPLICATION_JSON)
     public List<SensorHistoryDTO> retrieveLast15Temperatures() {
-        return retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesCommand())
+        return retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest())
                 .stream()
                 .map(SensorHistoryDTO::new)
                 .toList();

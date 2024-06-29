@@ -26,7 +26,7 @@ class RedefineLimitsUseCaseTest extends AbstractInfrastructureTest {
         // Given
 
         // When
-        final Limits limits = redefineLimitsUseCase.execute(TestProvider.GIVEN_REDEFINE_LIMITS_COMMAND);
+        final Limits limits = redefineLimitsUseCase.execute(TestProvider.GIVEN_REDEFINE_LIMITS_REQUEST);
 
         // Then
         assertAll(

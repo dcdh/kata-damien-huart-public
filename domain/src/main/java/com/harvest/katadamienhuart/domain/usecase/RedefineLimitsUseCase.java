@@ -2,11 +2,10 @@ package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.LimitsRepository;
-import com.harvest.katadamienhuart.domain.UseCase;
 
 import java.util.Objects;
 
-public final class RedefineLimitsUseCase implements UseCase<RedefineLimitsCommand, Limits> {
+public final class RedefineLimitsUseCase implements UseCase<RedefineLimitsRequest, Limits> {
 
     private final LimitsRepository limitsRepository;
 
@@ -15,9 +14,9 @@ public final class RedefineLimitsUseCase implements UseCase<RedefineLimitsComman
     }
 
     @Override
-    public Limits execute(final RedefineLimitsCommand command) {
-        Objects.requireNonNull(command);
-        final Limits newLimitsDefinition = new Limits(command.newColdLimit(), command.newWarmLimit());
+    public Limits execute(final RedefineLimitsRequest request) {
+        Objects.requireNonNull(request);
+        final Limits newLimitsDefinition = new Limits(request.newColdLimit(), request.newWarmLimit());
         return limitsRepository.store(newLimitsDefinition);
     }
 

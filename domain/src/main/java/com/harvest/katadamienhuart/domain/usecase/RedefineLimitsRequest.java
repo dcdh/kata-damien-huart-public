@@ -1,14 +1,13 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.ColdLimit;
-import com.harvest.katadamienhuart.domain.UseCaseCommand;
 import com.harvest.katadamienhuart.domain.WarmLimit;
 
 import java.util.Objects;
 
-public record RedefineLimitsCommand(ColdLimit newColdLimit, WarmLimit newWarmLimit) implements UseCaseCommand {
+public record RedefineLimitsRequest(ColdLimit newColdLimit, WarmLimit newWarmLimit) implements Request {
 
-    public RedefineLimitsCommand {
+    public RedefineLimitsRequest {
         Objects.requireNonNull(newColdLimit);
         Objects.requireNonNull(newWarmLimit);
     }

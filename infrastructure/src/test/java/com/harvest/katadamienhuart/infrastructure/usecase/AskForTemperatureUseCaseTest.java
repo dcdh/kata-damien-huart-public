@@ -3,7 +3,7 @@ package com.harvest.katadamienhuart.infrastructure.usecase;
 import com.harvest.katadamienhuart.domain.Sensor;
 import com.harvest.katadamienhuart.domain.TakenAtProvider;
 import com.harvest.katadamienhuart.domain.TemperatureCaptor;
-import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureCommand;
+import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureRequest;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
 import com.harvest.katadamienhuart.domain.usecase.TestProvider;
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
@@ -39,7 +39,7 @@ class AskForTemperatureUseCaseTest extends AbstractInfrastructureTest {
         doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
 
         // When
-        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureCommand());
+        final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureRequest());
 
         // Then
         assertAll(
