@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
-public interface UseCase<C extends Request, O> {
+public interface UseCase<R extends Request, O> {
 
-    O execute(C request);
+    O execute(R request);
 
 }
