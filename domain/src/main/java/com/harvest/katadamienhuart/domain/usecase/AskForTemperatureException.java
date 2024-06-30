@@ -1,4 +1,4 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
-public final class AskForTemperatureException extends Exception {
+public abstract class AskForTemperatureException extends RuntimeException {
 }

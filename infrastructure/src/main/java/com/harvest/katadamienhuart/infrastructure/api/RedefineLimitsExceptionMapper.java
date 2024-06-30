@@ -61,28 +61,28 @@ public final class RedefineLimitsExceptionMapper implements ExceptionMapper<Rede
             }
     )
     public Response toResponse(final RedefineLimitsException exception) {
-        if (exception.getCause() instanceof ColdLimitMustBePositiveException) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
-                    .entity(String.format(COLD_LIMIT_MUST_BE_POSITIVE_MSG, ((ColdLimitMustBePositiveException) exception.getCause()).limit().temperature()))
-                    .build();
-        } else if (exception.getCause() instanceof WarmLimitMustBePositiveException) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
-                    .entity(String.format(WARM_LIMIT_MUST_BE_POSITIVE_MSG, ((WarmLimitMustBePositiveException) exception.getCause()).limit().temperature()))
-                    .build();
-        } else if (exception.getCause() instanceof WarmLimitMustBeSuperiorToColdLimitException) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
-                    .entity(String.format(WARM_LIMIT_MUST_BE_SUPERIOR_TO_COLD_LIMIT_MSG,
-                            ((WarmLimitMustBeSuperiorToColdLimitException) exception.getCause()).warmLimit().limit().temperature(),
-                            ((WarmLimitMustBeSuperiorToColdLimitException) exception.getCause()).coldLimit().limit().temperature()))
-                    .build();
-        } else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+        return switch (exception) {
+            case ColdLimitMustBePositiveException coldLimitMustBePositiveException ->
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
+                            .entity(String.format(COLD_LIMIT_MUST_BE_POSITIVE_MSG, coldLimitMustBePositiveException.limit().temperature()))
+                            .build();
+            case WarmLimitMustBePositiveException warmLimitMustBePositiveException ->
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
+                            .entity(String.format(WARM_LIMIT_MUST_BE_POSITIVE_MSG, warmLimitMustBePositiveException.limit().temperature()))
+                            .build();
+            case WarmLimitMustBeSuperiorToColdLimitException warmLimitMustBeSuperiorToColdLimitException ->
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
+                            .entity(String.format(WARM_LIMIT_MUST_BE_SUPERIOR_TO_COLD_LIMIT_MSG,
+                                    warmLimitMustBeSuperiorToColdLimitException.warmLimit().limit().temperature(),
+                                    warmLimitMustBeSuperiorToColdLimitException.coldLimit().limit().temperature()))
+                            .build();
+            default -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
                     .entity(UNKNOWN_MSG)
                     .build();
-        }
+        };
     }
 }

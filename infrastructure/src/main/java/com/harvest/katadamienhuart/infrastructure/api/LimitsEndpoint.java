@@ -68,13 +68,9 @@ public class LimitsEndpoint {
     public void redefineLimits(@FormParam("newColdLimit") final Integer newColdLimit,
                                @FormParam("newWarmLimit") final Integer newWarmLimit)
             throws RedefineLimitsException {
-        try {
-            this.redefineLimitsUseCase.execute(new RedefineLimitsRequest(
-                    new ColdLimit(new DegreeCelsius(newColdLimit)),
-                    new WarmLimit(new DegreeCelsius(newWarmLimit))));
-        } catch (final Exception exception) {
-            throw new RedefineLimitsException(exception);
-        }
+        this.redefineLimitsUseCase.execute(new RedefineLimitsRequest(
+                new ColdLimit(new DegreeCelsius(newColdLimit)),
+                new WarmLimit(new DegreeCelsius(newWarmLimit))));
     }
 
 }
