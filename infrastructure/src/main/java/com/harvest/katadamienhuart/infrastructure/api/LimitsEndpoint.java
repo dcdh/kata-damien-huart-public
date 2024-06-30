@@ -13,6 +13,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -33,20 +34,12 @@ public class LimitsEndpoint {
     @POST
     @Path("/redefineLimits")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @APIResponses(
-            value = {
-                    @APIResponse(
-                            name = "success",
-                            responseCode = "204"
-                    )
-            }
-    )
     @RequestBody(
             required = true,
             content = @Content(
+                    mediaType = MediaType.APPLICATION_FORM_URLENCODED,
                     schema = @Schema(
                             type = SchemaType.OBJECT,
-                            required = true,
                             requiredProperties = {"newColdLimit", "newWarmLimit"},
                             properties = {
                                     @SchemaProperty(
@@ -62,8 +55,36 @@ public class LimitsEndpoint {
                                             example = "40"
                                     )
                             }
-                    )
+                    ),
+                    // list of example not displayed when trying it
+                    // https://github.com/swagger-api/swagger-ui/issues/10051
+                    examples = {
+                            @ExampleObject(
+                                    name = "redefine ok",
+                                    value = "newColdLimit=22&newWarmLimit=40"
+                            ),
+                            @ExampleObject(
+                                    name = "redefine fail because new cold limit is negative",
+                                    value = "newColdLimit=-22&newWarmLimit=40"
+                            ),
+                            @ExampleObject(
+                                    name = "redefine fail because new warm limit is negative",
+                                    value = "newColdLimit=22&newWarmLimit=-40"
+                            ),
+                            @ExampleObject(
+                                    name = "redefine fail because new warm limit is below cold limit",
+                                    value = "newColdLimit=40&newWarmLimit=22"
+                            )
+                    }
             )
+    )
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            name = "success",
+                            responseCode = "204"
+                    )
+            }
     )
     public void redefineLimits(@FormParam("newColdLimit") final Integer newColdLimit,
                                @FormParam("newWarmLimit") final Integer newWarmLimit)
