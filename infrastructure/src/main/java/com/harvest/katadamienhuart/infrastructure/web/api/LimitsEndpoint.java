@@ -1,11 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.web.api;
 
-import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
-import com.harvest.katadamienhuart.domain.WarmLimit;
-import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsException;
-import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsRequest;
-import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
+import com.harvest.katadamienhuart.domain.usecase.*;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.POST;
@@ -90,8 +86,8 @@ public class LimitsEndpoint {
                                @FormParam("newWarmLimit") final Integer newWarmLimit)
             throws RedefineLimitsException {
         this.redefineLimitsUseCase.execute(new RedefineLimitsRequest(
-                new ColdLimit(new DegreeCelsius(newColdLimit)),
-                new WarmLimit(new DegreeCelsius(newWarmLimit))));
+                new NewColdLimit(new DegreeCelsius(newColdLimit)),
+                new NewWarmLimit(new DegreeCelsius(newWarmLimit))));
     }
 
 }

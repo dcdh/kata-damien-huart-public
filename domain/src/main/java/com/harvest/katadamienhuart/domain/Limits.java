@@ -1,8 +1,9 @@
 package com.harvest.katadamienhuart.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public record Limits(ColdLimit coldLimit, WarmLimit warmLimit) {
+public record Limits(ColdLimit coldLimit, WarmLimit warmLimit) implements Serializable {
 
     public Limits {
         Objects.requireNonNull(coldLimit);

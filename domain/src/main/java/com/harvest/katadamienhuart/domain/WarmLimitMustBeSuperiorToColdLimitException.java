@@ -1,10 +1,8 @@
 package com.harvest.katadamienhuart.domain;
 
-import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsException;
-
 import java.util.Objects;
 
-public final class WarmLimitMustBeSuperiorToColdLimitException extends RedefineLimitsException {
+public final class WarmLimitMustBeSuperiorToColdLimitException extends RuntimeException {
 
     private final ColdLimit coldLimit;
     private final WarmLimit warmLimit;

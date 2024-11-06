@@ -1,4 +1,7 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
-public abstract class RedefineLimitsException extends RuntimeException {
+public final class RedefineLimitsException extends RuntimeException {
+    public RedefineLimitsException(final Throwable cause) {
+        super(cause);
+    }
 }

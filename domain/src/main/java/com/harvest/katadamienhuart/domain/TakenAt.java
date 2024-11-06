@@ -1,9 +1,10 @@
 package com.harvest.katadamienhuart.domain;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public record TakenAt(ZonedDateTime at) implements Comparable<TakenAt> {
+public record TakenAt(ZonedDateTime at) implements Comparable<TakenAt>, Serializable {
 
     public TakenAt {
         Objects.requireNonNull(at);

@@ -27,14 +27,17 @@ public final class AskForTemperatureUseCase implements UseCase<AskForTemperature
 
     @Override
     public Sensor execute(final AskForTemperatureRequest request) throws AskForTemperatureException {
-        Objects.requireNonNull(request);
-        final Temperature temperature = temperatureCaptor.takeTemperature();
-        final Limits limits = limitsRepository.findLastLimits()
-                .orElseGet(Limits::ofDefault);
-        final TakenAt takenAt = takenAtProvider.now();
-        final TakenTemperature takenTemperature = new TakenTemperature(temperature, takenAt);
-        takenTemperatureRepository.store(takenTemperature);
-        return new Sensor(takenTemperature, limits);
+        try {
+            Objects.requireNonNull(request);
+            final Temperature temperature = temperatureCaptor.takeTemperature();
+            final Limits limits = limitsRepository.findLastLimits().orElseGet(Limits::ofDefault);
+            final TakenAt takenAt = takenAtProvider.now();
+            final TakenTemperature takenTemperature = new TakenTemperature(temperature, takenAt);
+            takenTemperatureRepository.store(takenTemperature);
+            return new Sensor(takenTemperature, limits);
+        } catch (final Exception exception) {
+            throw new AskForTemperatureException(exception);
+        }
     }
 
 }

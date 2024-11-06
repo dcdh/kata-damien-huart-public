@@ -11,9 +11,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-// Should be done in api package
-// Should be removed
-@Deprecated
 class ApplicationTest {
 
     @Test

@@ -1,17 +1,20 @@
 package com.harvest.katadamienhuart.infrastructure.usecase;
 
 import com.harvest.katadamienhuart.domain.Sensor;
+import com.harvest.katadamienhuart.domain.TakenAt;
+import com.harvest.katadamienhuart.domain.Temperature;
 import com.harvest.katadamienhuart.domain.spi.TakenAtProvider;
 import com.harvest.katadamienhuart.domain.spi.TemperatureCaptor;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureException;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureRequest;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
-import com.harvest.katadamienhuart.domain.usecase.TestProvider;
+import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCaseTestResolver;
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.doReturn;
 
 @QuarkusTest
+@ExtendWith(AskForTemperatureUseCaseTestResolver.class)
 class AskForTemperatureUseCaseTest extends AbstractInfrastructureTest {
 
     @InjectMock
@@ -34,10 +38,11 @@ class AskForTemperatureUseCaseTest extends AbstractInfrastructureTest {
     AskForTemperatureUseCase askForTemperatureUseCase;
 
     @Test
-    void should_ask_for_temperature() throws AskForTemperatureException {
+    void should_ask_for_temperature(final Temperature temperature,
+                                    final TakenAt takenAt) throws AskForTemperatureException {
         // Given
-        doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
-        doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
+        doReturn(temperature).when(temperatureCaptor).takeTemperature();
+        doReturn(takenAt).when(takenAtProvider).now();
 
         // When
         final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureRequest());

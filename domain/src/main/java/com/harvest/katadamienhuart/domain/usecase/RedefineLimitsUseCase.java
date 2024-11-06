@@ -15,9 +15,15 @@ public final class RedefineLimitsUseCase implements UseCase<RedefineLimitsReques
 
     @Override
     public Limits execute(final RedefineLimitsRequest request) throws RedefineLimitsException {
-        Objects.requireNonNull(request);
-        final Limits newLimitsDefinition = new Limits(request.newColdLimit(), request.newWarmLimit());
-        return limitsRepository.store(newLimitsDefinition);
+        try {
+            Objects.requireNonNull(request);
+            final Limits newLimitsDefinition = new Limits(
+                    request.newColdLimit().toColdLimit(),
+                    request.newWarmLimit().toWarmLimit());
+            return limitsRepository.store(newLimitsDefinition);
+        } catch (final Exception exception) {
+            throw new RedefineLimitsException(exception);
+        }
     }
 
 }

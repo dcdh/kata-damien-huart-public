@@ -1,10 +1,8 @@
 package com.harvest.katadamienhuart.domain;
 
-import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsException;
-
 import java.util.Objects;
 
-public final class WarmLimitMustBePositiveException extends RedefineLimitsException {
+public final class WarmLimitMustBePositiveException extends RuntimeException {
 
     private final DegreeCelsius limit;
 

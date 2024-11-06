@@ -16,10 +16,12 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(AskForTemperatureUseCaseTestResolver.class)
 class AskForTemperatureUseCaseTest {
 
     @Mock
@@ -42,23 +44,19 @@ class AskForTemperatureUseCaseTest {
     }
 
     @Test
-    void should_ask_for_temperature() throws AskForTemperatureException {
+    void should_ask_for_temperature(final Temperature temperature,
+                                    final TakenAt takenAt,
+                                    final Limits limits,
+                                    final Sensor expectedSensor) throws AskForTemperatureException {
         // Given
-        doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
-        doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
-        doReturn(Optional.of(TestProvider.GIVEN_LIMITS)).when(limitsRepository).findLastLimits();
+        doReturn(temperature).when(temperatureCaptor).takeTemperature();
+        doReturn(takenAt).when(takenAtProvider).now();
+        doReturn(Optional.of(limits)).when(limitsRepository).findLastLimits();
 
         // When
         final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureRequest());
 
         // Then
-        final Sensor expectedSensor = new Sensor(
-                new TakenTemperature(new Temperature(new DegreeCelsius(30)),
-                        new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC))),
-                new Limits(
-                        new ColdLimit(new DegreeCelsius(22)),
-                        new WarmLimit(new DegreeCelsius(40)))
-        );
         assertAll(
                 () -> assertThat(sensor).isEqualTo(expectedSensor),
                 () -> verify(temperatureCaptor, times(1)).takeTemperature(),
@@ -71,23 +69,17 @@ class AskForTemperatureUseCaseTest {
     }
 
     @Test
-    void should_use_default_limits_when_not_defined() throws AskForTemperatureException {
+    void should_use_default_limits_when_not_defined(final Temperature temperature, final TakenAt takenAt,
+                                                    final Sensor expectedSensor) throws AskForTemperatureException {
         // Given
-        doReturn(TestProvider.GIVEN_TEMPERATURE).when(temperatureCaptor).takeTemperature();
-        doReturn(TestProvider.GIVEN_TAKEN_AT).when(takenAtProvider).now();
+        doReturn(temperature).when(temperatureCaptor).takeTemperature();
+        doReturn(takenAt).when(takenAtProvider).now();
         doReturn(Optional.empty()).when(limitsRepository).findLastLimits();
 
         // When
         final Sensor sensor = askForTemperatureUseCase.execute(new AskForTemperatureRequest());
 
         // Then
-        final Sensor expectedSensor = new Sensor(
-                new TakenTemperature(new Temperature(new DegreeCelsius(30)),
-                        new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC))),
-                new Limits(
-                        new ColdLimit(new DegreeCelsius(22)),
-                        new WarmLimit(new DegreeCelsius(40)))
-        );
         assertAll(
                 () -> assertThat(sensor).isEqualTo(expectedSensor),
                 () -> verify(temperatureCaptor, times(1)).takeTemperature(),
@@ -97,5 +89,17 @@ class AskForTemperatureUseCaseTest {
                 () -> verify(takenAtProvider, times(1)).now(),
                 () -> verify(limitsRepository, times(1)).findLastLimits()
         );
+    }
+
+    @Test
+    public void should_handle_unknown_exception() {
+        // Given
+        doThrow(new IllegalStateException("Unknown exception happened")).when(limitsRepository).findLastLimits();
+
+        // When
+        assertThatThrownBy(() -> askForTemperatureUseCase.execute(new AskForTemperatureRequest()))
+                .isInstanceOf(AskForTemperatureException.class)
+                .hasRootCauseInstanceOf(IllegalStateException.class)
+                .hasRootCauseMessage("Unknown exception happened");
     }
 }

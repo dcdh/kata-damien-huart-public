@@ -1,6 +1,7 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
-import com.harvest.katadamienhuart.domain.*;
+import com.harvest.katadamienhuart.domain.Limits;
+import com.harvest.katadamienhuart.domain.SensorHistory;
 import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
 import com.harvest.katadamienhuart.domain.spi.TakenTemperatureRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(RetrieveLast15TakenTemperaturesUseCaseTestResolver.class)
 public class RetrieveLast15TakenTemperaturesUseCaseTest {
 
     @Mock
@@ -37,92 +35,77 @@ public class RetrieveLast15TakenTemperaturesUseCaseTest {
         retrieveLast15TakenTemperaturesUseCase = new RetrieveLast15TakenTemperaturesUseCase(limitsRepository, takenTemperatureRepository);
     }
 
-    @Test
-    void should_return_last_15_taken_temperature() throws RetrieveLast15TakenTemperaturesException {
+    @RetrieveLast15TakenTemperaturesUseCaseTestResolver.ThreeTakenTemperaturesTest
+    void should_return_last_15_taken_temperature(final Limits limits,
+                                                 final RetrieveLast15TakenTemperaturesUseCaseTestResolver.TakenTemperatures givenTakenTemperatures,
+                                                 final RetrieveLast15TakenTemperaturesUseCaseTestResolver.SensorHistories expectedSensorHistories)
+            throws RetrieveLast15TakenTemperaturesException {
         // Given
-        doReturn(Optional.of(TestProvider.GIVEN_LIMITS)).when(limitsRepository).findLastLimits();
-        doReturn(TestProvider.GIVEN_TAKEN_TEMPERATURES).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
+        doReturn(Optional.of(limits)).when(limitsRepository).findLastLimits();
+        doReturn(givenTakenTemperatures.takenTemperatures()).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When
         final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest());
 
         // Then
         assertAll(
-                () -> assertThat(sensorHistories).containsExactly(
-                        new SensorHistory(new TakenTemperature(
-                                new Temperature(new DegreeCelsius(20)),
-                                new TakenAt(ZonedDateTime.of(2021, 10, 2, 0, 0, 0, 0, ZoneOffset.UTC))),
-                                SensorState.COLD),
-                        new SensorHistory(new TakenTemperature(
-                                new Temperature(new DegreeCelsius(20)),
-                                new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC))),
-                                SensorState.COLD)
-                ),
+                () -> assertThat(sensorHistories).containsAll(expectedSensorHistories.sensorHistories()),
                 () -> verify(limitsRepository, times(1)).findLastLimits(),
                 () -> verify(limitsRepository, times(1)).findLastLimits()
         );
     }
 
-    @Test
-    void should_use_default_limits_when_not_defined() throws RetrieveLast15TakenTemperaturesException {
+    @RetrieveLast15TakenTemperaturesUseCaseTestResolver.ThreeTakenTemperaturesTest
+    void should_use_default_limits_when_not_defined(final RetrieveLast15TakenTemperaturesUseCaseTestResolver.TakenTemperatures givenTakenTemperatures,
+                                                    final RetrieveLast15TakenTemperaturesUseCaseTestResolver.SensorHistories expectedSensorHistories)
+            throws RetrieveLast15TakenTemperaturesException {
         // Given
-        doReturn(TestProvider.GIVEN_TAKEN_TEMPERATURES).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
+        doReturn(givenTakenTemperatures.takenTemperatures()).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When
         final List<SensorHistory> sensorHistories = retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest());
 
         // Then
         assertAll(
-                () -> assertThat(sensorHistories).containsExactly(
-                        new SensorHistory(new TakenTemperature(
-                                new Temperature(new DegreeCelsius(20)),
-                                new TakenAt(ZonedDateTime.of(2021, 10, 2, 0, 0, 0, 0, ZoneOffset.UTC))),
-                                SensorState.COLD),
-                        new SensorHistory(new TakenTemperature(
-                                new Temperature(new DegreeCelsius(20)),
-                                new TakenAt(ZonedDateTime.of(2021, 10, 1, 0, 0, 0, 0, ZoneOffset.UTC))),
-                                SensorState.COLD)
-                ),
+                () -> assertThat(sensorHistories).containsAll(expectedSensorHistories.sensorHistories()),
                 () -> verify(limitsRepository, times(1)).findLastLimits(),
                 () -> verify(limitsRepository, times(1)).findLastLimits()
         );
     }
 
-    @Test
-    public void should_fail_fast_if_more_than_15_are_returned() {
+    @RetrieveLast15TakenTemperaturesUseCaseTestResolver.TwentyTakenTemperaturesTest
+    public void should_fail_fast_if_more_than_15_are_returned(final RetrieveLast15TakenTemperaturesUseCaseTestResolver.TakenTemperatures givenTakenTemperatures) {
         // Given
-        final List<TakenTemperature> givenTakenTemperatures = IntStream.range(1, 20).boxed()
-                .sorted(Collections.reverseOrder())
-                .map(dayOfMonth ->
-                        new TakenTemperature(
-                                new Temperature(new DegreeCelsius(20)),
-                                new TakenAt(ZonedDateTime.of(2021, 10, dayOfMonth, 0, 0, 0, 0, ZoneOffset.UTC)))
-                )
-                .toList();
-        doReturn(givenTakenTemperatures).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
+        doReturn(givenTakenTemperatures.takenTemperatures()).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When & Then
         assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest()))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Max 15 taken temperature expected");
+                .isInstanceOf(RetrieveLast15TakenTemperaturesException.class)
+                .hasRootCauseInstanceOf(IllegalStateException.class)
+                .hasRootCauseMessage("Max 15 taken temperature expected");
     }
 
-    @Test
-    public void should_fail_fast_when_history_is_not_sorted_desc() {
+    @RetrieveLast15TakenTemperaturesUseCaseTestResolver.UnorderedTakenTemperaturesTest
+    public void should_fail_fast_when_history_is_not_sorted_desc(final RetrieveLast15TakenTemperaturesUseCaseTestResolver.TakenTemperatures givenTakenTemperatures) {
         // Given
-        final List<TakenTemperature> givenTakenTemperatures = IntStream.range(1, 10).boxed()
-                .map(dayOfMonth ->
-                        new TakenTemperature(
-                                new Temperature(new DegreeCelsius(20)),
-                                new TakenAt(ZonedDateTime.of(2021, 10, dayOfMonth, 0, 0, 0, 0, ZoneOffset.UTC)))
-                )
-                .toList();
-        doReturn(givenTakenTemperatures).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
+        doReturn(givenTakenTemperatures.takenTemperatures()).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
 
         // When & Then
         assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest()))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Taken temperature history is not sorted descending");
+                .isInstanceOf(RetrieveLast15TakenTemperaturesException.class)
+                .hasRootCauseInstanceOf(IllegalStateException.class)
+                .hasRootCauseMessage("Taken temperature history is not sorted descending");
     }
 
+    @Test
+    public void should_handle_unknown_exception() {
+        // Given
+        doThrow(new IllegalStateException("Unknown exception happened")).when(takenTemperatureRepository).findLast15OrderedByTakenAtDesc();
+
+        // When
+        assertThatThrownBy(() -> retrieveLast15TakenTemperaturesUseCase.execute(new RetrieveLast15TakenTemperaturesRequest()))
+                .isInstanceOf(RetrieveLast15TakenTemperaturesException.class)
+                .hasRootCauseInstanceOf(IllegalStateException.class)
+                .hasRootCauseMessage("Unknown exception happened");
+    }
 }

@@ -9,8 +9,11 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 
 public abstract class AbstractInfrastructureTest {
+
+    public static final DateTimeFormatter FORMATTER_WITH_SECONDS = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
 
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE T_LIMITS, T_TAKEN_TEMPERATURE";
     public static final String RESET_T_LIMIT_SEQ = "SELECT setval('t_limits_seq', 1, false);";

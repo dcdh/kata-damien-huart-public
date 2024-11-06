@@ -1,9 +1,10 @@
 package com.harvest.katadamienhuart.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public record TakenTemperature(Temperature temperature,
-                               TakenAt takenAt) implements Comparable<TakenTemperature> {
+                               TakenAt takenAt) implements Comparable<TakenTemperature>, Serializable {
     public TakenTemperature {
         Objects.requireNonNull(temperature);
         Objects.requireNonNull(takenAt);

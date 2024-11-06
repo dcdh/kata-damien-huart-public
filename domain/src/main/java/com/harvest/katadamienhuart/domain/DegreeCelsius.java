@@ -1,8 +1,9 @@
 package com.harvest.katadamienhuart.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public record DegreeCelsius(Integer temperature) {
+public record DegreeCelsius(Integer temperature) implements Serializable {
 
     public DegreeCelsius {
         Objects.requireNonNull(temperature);

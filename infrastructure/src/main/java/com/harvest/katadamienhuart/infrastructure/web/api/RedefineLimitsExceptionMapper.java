@@ -44,7 +44,7 @@ public final class RedefineLimitsExceptionMapper implements ExceptionMapper<Rede
                                     )
                             }
                     ),
-                    @APIResponse(responseCode = "500", description = "Something wrong happened",
+                    @APIResponse(responseCode = "500", description = UNKNOWN_MSG,
                             content = {
                                     @Content(
                                             mediaType = VND_REDEFINE_LIMIT_ERROR_V1_TXT,
@@ -52,8 +52,8 @@ public final class RedefineLimitsExceptionMapper implements ExceptionMapper<Rede
                                                     implementation = String.class),
                                             examples = {
                                                     @ExampleObject(
-                                                            name = "Something wrong happened",
-                                                            value = "Something wrong happened")
+                                                            name = UNKNOWN_MSG,
+                                                            value = UNKNOWN_MSG)
                                             }
                                     )
                             }
@@ -61,7 +61,7 @@ public final class RedefineLimitsExceptionMapper implements ExceptionMapper<Rede
             }
     )
     public Response toResponse(final RedefineLimitsException exception) {
-        return switch (exception) {
+        return switch (exception.getCause()) {
             case ColdLimitMustBePositiveException coldLimitMustBePositiveException ->
                     Response.status(Response.Status.BAD_REQUEST)
                             .type(VND_REDEFINE_LIMIT_ERROR_V1_TXT)
