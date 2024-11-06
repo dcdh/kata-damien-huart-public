@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.Limits;
-import com.harvest.katadamienhuart.domain.LimitsRepository;
+import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
 
 import java.util.Objects;
 

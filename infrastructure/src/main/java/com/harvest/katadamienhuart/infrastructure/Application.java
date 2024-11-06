@@ -1,6 +1,10 @@
 package com.harvest.katadamienhuart.infrastructure;
 
 import com.harvest.katadamienhuart.domain.*;
+import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
+import com.harvest.katadamienhuart.domain.spi.TakenAtProvider;
+import com.harvest.katadamienhuart.domain.spi.TakenTemperatureRepository;
+import com.harvest.katadamienhuart.domain.spi.TemperatureCaptor;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;
 import com.harvest.katadamienhuart.domain.usecase.RedefineLimitsUseCase;
 import com.harvest.katadamienhuart.domain.usecase.RetrieveLast15TakenTemperaturesUseCase;

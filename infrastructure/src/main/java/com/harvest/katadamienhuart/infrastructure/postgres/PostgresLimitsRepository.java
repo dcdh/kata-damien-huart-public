@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.postgres;
 
 import com.harvest.katadamienhuart.domain.Limits;
-import com.harvest.katadamienhuart.domain.LimitsRepository;
+import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 

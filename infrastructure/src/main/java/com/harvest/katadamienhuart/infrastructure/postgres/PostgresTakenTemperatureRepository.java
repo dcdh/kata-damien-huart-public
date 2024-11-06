@@ -1,12 +1,11 @@
 package com.harvest.katadamienhuart.infrastructure.postgres;
 
 import com.harvest.katadamienhuart.domain.TakenTemperature;
-import com.harvest.katadamienhuart.domain.TakenTemperatureRepository;
+import com.harvest.katadamienhuart.domain.spi.TakenTemperatureRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class PostgresTakenTemperatureRepository implements TakenTemperatureRepository {

@@ -1,6 +1,7 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.*;
+import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

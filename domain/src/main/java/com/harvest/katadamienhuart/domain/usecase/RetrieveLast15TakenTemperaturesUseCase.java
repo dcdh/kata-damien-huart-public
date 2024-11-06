@@ -1,6 +1,8 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.*;
+import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
+import com.harvest.katadamienhuart.domain.spi.TakenTemperatureRepository;
 import org.apache.commons.lang3.Validate;
 
 import java.util.List;

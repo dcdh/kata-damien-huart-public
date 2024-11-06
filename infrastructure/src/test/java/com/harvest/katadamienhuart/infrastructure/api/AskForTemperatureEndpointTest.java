@@ -1,7 +1,7 @@
 package com.harvest.katadamienhuart.infrastructure.api;
 
-import com.harvest.katadamienhuart.domain.TakenAtProvider;
-import com.harvest.katadamienhuart.domain.TemperatureCaptor;
+import com.harvest.katadamienhuart.domain.spi.TakenAtProvider;
+import com.harvest.katadamienhuart.domain.spi.TemperatureCaptor;
 import com.harvest.katadamienhuart.domain.usecase.TestProvider;
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
 import io.quarkus.test.InjectMock;

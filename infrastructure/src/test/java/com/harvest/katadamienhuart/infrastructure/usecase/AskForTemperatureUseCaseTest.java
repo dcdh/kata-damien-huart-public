@@ -1,8 +1,8 @@
 package com.harvest.katadamienhuart.infrastructure.usecase;
 
 import com.harvest.katadamienhuart.domain.Sensor;
-import com.harvest.katadamienhuart.domain.TakenAtProvider;
-import com.harvest.katadamienhuart.domain.TemperatureCaptor;
+import com.harvest.katadamienhuart.domain.spi.TakenAtProvider;
+import com.harvest.katadamienhuart.domain.spi.TemperatureCaptor;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureException;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureRequest;
 import com.harvest.katadamienhuart.domain.usecase.AskForTemperatureUseCase;

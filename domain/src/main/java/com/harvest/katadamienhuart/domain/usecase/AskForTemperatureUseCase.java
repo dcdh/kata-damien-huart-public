@@ -1,6 +1,10 @@
 package com.harvest.katadamienhuart.domain.usecase;
 
 import com.harvest.katadamienhuart.domain.*;
+import com.harvest.katadamienhuart.domain.spi.LimitsRepository;
+import com.harvest.katadamienhuart.domain.spi.TakenAtProvider;
+import com.harvest.katadamienhuart.domain.spi.TakenTemperatureRepository;
+import com.harvest.katadamienhuart.domain.spi.TemperatureCaptor;
 
 import java.util.Objects;
 

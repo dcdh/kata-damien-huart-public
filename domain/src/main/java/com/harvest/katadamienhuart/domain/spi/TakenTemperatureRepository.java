@@ -1,4 +1,6 @@
-package com.harvest.katadamienhuart.domain;
+package com.harvest.katadamienhuart.domain.spi;
+
+import com.harvest.katadamienhuart.domain.TakenTemperature;
 
 import java.util.List;
 
