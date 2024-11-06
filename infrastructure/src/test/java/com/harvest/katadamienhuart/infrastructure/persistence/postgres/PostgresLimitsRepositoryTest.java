@@ -1,10 +1,12 @@
-package com.harvest.katadamienhuart.infrastructure.postgres;
+package com.harvest.katadamienhuart.infrastructure.persistence.postgres;
 
 import com.harvest.katadamienhuart.domain.ColdLimit;
 import com.harvest.katadamienhuart.domain.DegreeCelsius;
 import com.harvest.katadamienhuart.domain.Limits;
 import com.harvest.katadamienhuart.domain.WarmLimit;
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
+import com.harvest.katadamienhuart.infrastructure.persistence.postgres.LimitsEntity;
+import com.harvest.katadamienhuart.infrastructure.persistence.postgres.PostgresLimitsRepository;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;

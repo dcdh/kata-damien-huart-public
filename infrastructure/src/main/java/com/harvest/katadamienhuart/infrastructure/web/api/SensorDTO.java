@@ -1,4 +1,4 @@
-package com.harvest.katadamienhuart.infrastructure.api;
+package com.harvest.katadamienhuart.infrastructure.web.api;
 
 import com.harvest.katadamienhuart.domain.Sensor;
 import com.harvest.katadamienhuart.domain.SensorState;

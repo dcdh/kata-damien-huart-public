@@ -1,4 +1,4 @@
-package com.harvest.katadamienhuart.infrastructure.api;
+package com.harvest.katadamienhuart.infrastructure.web.api;
 
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
 import io.quarkus.test.junit.QuarkusTest;

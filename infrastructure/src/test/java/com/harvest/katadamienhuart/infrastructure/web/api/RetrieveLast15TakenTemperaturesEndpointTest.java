@@ -1,9 +1,9 @@
-package com.harvest.katadamienhuart.infrastructure.api;
+package com.harvest.katadamienhuart.infrastructure.web.api;
 
 import com.harvest.katadamienhuart.domain.usecase.TestProvider;
 import com.harvest.katadamienhuart.infrastructure.AbstractInfrastructureTest;
-import com.harvest.katadamienhuart.infrastructure.postgres.LimitsEntity;
-import com.harvest.katadamienhuart.infrastructure.postgres.TakenTemperatureEntity;
+import com.harvest.katadamienhuart.infrastructure.persistence.postgres.LimitsEntity;
+import com.harvest.katadamienhuart.infrastructure.persistence.postgres.TakenTemperatureEntity;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.module.jsv.JsonSchemaValidator;

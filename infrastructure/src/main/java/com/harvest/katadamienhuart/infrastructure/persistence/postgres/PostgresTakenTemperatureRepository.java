@@ -1,4 +1,4 @@
-package com.harvest.katadamienhuart.infrastructure.postgres;
+package com.harvest.katadamienhuart.infrastructure.persistence.postgres;
 
 import com.harvest.katadamienhuart.domain.TakenTemperature;
 import com.harvest.katadamienhuart.domain.spi.TakenTemperatureRepository;
