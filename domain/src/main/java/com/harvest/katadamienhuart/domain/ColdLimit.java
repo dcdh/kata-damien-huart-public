@@ -2,13 +2,12 @@ package com.harvest.katadamienhuart.domain;
 
 import java.util.Objects;
 
-public record ColdLimit(DegreeCelsius limit) {
+public record ColdLimit(DegreeCelsius limit) implements Limit {
 
-    public ColdLimit {
-        Objects.requireNonNull(limit);
+    public ColdLimit(DegreeCelsius limit) {
+        this.limit = Objects.requireNonNull(limit);
         if (!limit.isPositive()) {
             throw new ColdLimitMustBePositiveException(limit);
         }
     }
-
 }
